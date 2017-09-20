@@ -1,0 +1,33 @@
+---
+- hosts: all
+  #become: true
+  gather_facts: true
+  vars:
+    DEBUG: true
+    # Include custom vars from defined locations
+    include_vars: {
+      paths: [
+        "/Users/feffi/.macos-bootstrap"
+      ]
+    }
+  roles:
+    - { role: feffi.macos-include-vars }
+    - { role: feffi.debug }
+    - { role: feffi.macos-defaults }
+    - { role: feffi.macos-computername }
+    - { role: feffi.git-config }
+    - { role: feffi.macos-homebrew }
+    - { role: feffi.macos-softwareupdate }
+    - { role: feffi.macos-avatar }
+    - { role: feffi.macos-ohmyzsh }
+    - { role: feffi.macos-dotfiles }
+    - { role: feffi.macos-settings }
+    - { role: feffi.macos-dock }
+    - { role: feffi.macos-sublime }
+    - { role: feffi.macos-standby }
+    - { role: feffi.macos-finder }
+    - { role: feffi.macos-git-repos }
+    - { role: feffi.macos-pip }
+    - { role: feffi.macos-timemachine }
+    - { role: feffi.macos-ui }
+    #- { role: feffi.macos-ssd }
