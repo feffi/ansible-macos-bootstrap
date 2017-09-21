@@ -1,6 +1,7 @@
 ---
 - { src: "https://github.com/feffi/ansible-include-vars.git", name: "feffi.include-vars" }
-- { src: "https://github.com/feffi/ansible-gitconfig.git", name: "feffi.gitconfig" }
+- { src: "https://github.com/feffi/ansible-git-config.git", name: "feffi.git-config" }
+- { src: "https://github.com/feffi/ansible-ssg-config.git", name: "feffi.ssh-config" }
 - { src: "https://github.com/feffi/ansible-macos-computername.git", name: "feffi.macos-computername" }
 - { src: "https://github.com/feffi/ansible-macos-homebrew.git", name: "feffi.macos-homebrew" }
 - { src: "https://github.com/feffi/ansible-macos-defaults.git", name: "feffi.macos-defaults" }

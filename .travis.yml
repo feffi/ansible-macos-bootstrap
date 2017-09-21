@@ -6,6 +6,8 @@ cache: pip
 os:
   - osx
 
+sudo: required
+
 osx_image: xcode9
 
 #install:
@@ -18,4 +20,4 @@ osx_image: xcode9
     #- ansible-galaxy install -f -r tests/requirements.yml -p /tmp/roles
 
 script:
-  - "./bootstrap.sh"
+  - "sudo ./bootstrap.sh"
