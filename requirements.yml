@@ -19,4 +19,5 @@
 - { src: "https://github.com/feffi/ansible-macos-git-repos.git", name: "feffi.macos-git-repos" }
 - { src: "https://github.com/feffi/ansible-macos-pip.git", name: "feffi.macos-pip" }
 - { src: "https://github.com/feffi/ansible-macos-timemachine.git", name: "feffi.macos-timemachine" }
+- { src: "https://github.com/feffi/ansible-macos-timezone.git", name: "feffi.macos-timezone" }
 - { src: "https://github.com/feffi/ansible-macos-ui.git", name: "feffi.macos-ui" }
