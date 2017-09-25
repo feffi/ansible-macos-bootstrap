@@ -12,7 +12,7 @@
   roles:
     - { role: feffi.macos-include-vars }
 #    - { role: feffi.debug }
-    - { role: feffi.ssh-config }
+#    - { role: feffi.ssh-config }
     - { role: feffi.macos-defaults }
     - { role: feffi.macos-computername }
     - { role: feffi.git-config }
