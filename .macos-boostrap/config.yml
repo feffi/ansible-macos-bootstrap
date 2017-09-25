@@ -1,1 +1,999 @@
 ---
+###########################################################################################
+#                                                                                         #
+#                         ____   _____   _                 _       _                      #
+#                        / __ \ / ____| | |               | |     | |                     #
+#   _ __ ___   __ _  ___| |  | | (___   | |__   ___   ___ | |_ ___| |_ _ __ __ _ _ __     #
+#  | \'_ \` _\ / _\`/ __| |  | |\___ \  | '_ \ / _ \ / _ \| __/ __| __| '__/ _` | '_  \   #
+#  | | | | | | (_| | (__| |__| |____) | | |_) | (_) | (_) | |_\__ \ |_| | | (_| | |_) |   #
+#  |_| |_| |_|\__,_|\___|\____/|_____/  |_.__/ \___/ \___/ \__|___/\__|_|  \__,_| .__/    #
+#                                                                               | |       #
+#                                              https://feffi.org/macos-boostrap |_|       #
+# Thanks:                                                                                 #
+#   http://superlumic.com                           https://github.com/boxcutter/osx      #
+#   https://github.com/jeremyltn                    http://patorjk.com/software/taag      #
+#   https://gist.github.com/pkuczynski/8665367      https://github.com/geerlingguy        #
+#                                                                                         #
+# Missing/todo roles:                                                                     #
+#  - Enable passwordless sudo for user in append_sudoers_user                             #
+#  - ssh config generator                                                                 #
+#                                                                                         #
+###########################################################################################
+
+# Ansible role to manage UI settings in macOS.
+macos_ui: {
+  # Reveal IP address, hostname, OS version, etc. when clicking the clock in the login window
+  hostinfo: "HostName",
+  # Enable Dashboard dev mode (allows keeping widgets on the desktop)
+  dashboard_devmode: true,
+  # Enable Dashboard
+  dashboard_enable: false,
+  # Set Help Viewer windows to non-floating mode
+  help_floating: true,
+  # Quit Printer App After Print Jobs Complete
+  quit_printer: true,
+  # Set shadow in screenshots
+  screenshots_shadow: false,
+  # Set screenshots save path
+  screenshots_path: "~/Desktop/Screenshots",
+  # Set screenshots save format, options: png, bmp, gif, jpg, pdf, tiff
+  screenshots_format: "png",
+  # Ask for password on screensaver
+  screensaver_password: true,
+  # Ask for password on screensaver delay in seconds
+  screensaver_password_delay: 0,
+  # Use scroll gesture with the Ctrl (^) modifier key to zoom
+  zoom: "262144",
+  # Follow the keyboard focus while zoomed in
+  zoom_follow: true,
+  # Set Menu bar transparency
+  menubar_transparency: true,
+  # Enable subpixel font rendering on non-Apple LCDs
+  subpixel: true,
+  # Set highlight color to green
+  highlight: "0.764700 0.976500 0.568600",
+  # Enable full keyboard access for all controls (e.g. enable Tab in modal dialogs)
+  keyboard_mode: true,
+  # Double-click a window's title bar to minimize
+  window_dbclk: true,
+  # Use smooth scrolling
+  smooth_scroll: true,
+  # Show scrollbars only when scrolling
+  scrollbar_mode: "WhenScrolling",
+  # Natural (Lion-style) scrolling
+  scroll_natural: true,
+  # Set opening and closing windows and popovers
+  opening_animation: false
+}
+
+# Ansible role to manage finder settings in macOS.
+macos_finder: {
+  # Show Hidden Files
+  all_files: true,
+  # Show Full Path in Finder Title
+  show_path: true,
+  # Set window animations and Get Info animations
+  animated: false,
+  # Empty Trash securely by default
+  secure_trash: true,
+  # When performing a search, search the current folder by default
+  search_current_default: "SCcf",
+  # Set warning when changing a file extension
+  warning_change_ext: false,
+  # Set Finder view mode: 'icnv', 'clmv', 'Flwv'
+  view_mode: "clmv",
+  # Set Default Finder Location
+  default_location: "PfLo",
+  # Set Default Finder Location path
+  default_location_path: "file://${HOME}",
+  # Allow text selection in Quick Look
+  select_quicklook: true,
+  # Show 'Quit Finder' Menu Item
+  allow_quit_finder: true,
+  # Show icons for external drives on the desktop
+  show_external_drives: true,
+  # Show icons for hard drives on the desktop
+  show_harddrives: true,
+  # Show icons for servers on the desktop
+  show_servers: true,
+  # Show icons for removable media on the desktop
+  show_removables: true,
+  # Show path in path bar
+  show_pathbar: true,
+  # Show status bar in Finder
+  show_statusbar: true,
+  # Warning before emptying the Trash
+  warn_trash_empty: false,
+  # Set creation of .DS_Store files on network volumes
+  ds_files: false,
+  # Enable AirDrop over Ethernet and on unsupported Macs running Lion
+  airdrop: true,
+  # Show all filename extensions
+  extensions: true,
+  # Enable spring loading for directories
+  springload: true,
+  # Set the spring loading delay for directories
+  springload_delay: 0,
+  # Set Sidebar Icon Size
+  sidebar_size: 1,
+  # Remove duplicates in the “Open With” menu
+  remove_duplicates: true,
+  # Show the ~/Library folder
+  hide_library_folder: false,
+  # Sets default save target to be a local disk, not iCloud
+  default_target_icloud: false
+}
+
+# Ansible role to manage the macOS dock.
+macos_dock: {
+  # Applications to add/remove to/from the Dock
+  applications: {
+    add: [
+      { name: "Finder", path: "/Applications/Finder.app", pos: 1 },
+      { name: "Contacts", path: "/Applications/Contacts.app", pos: 2 },
+      { name: "Calendar", path: "/Applications/Calendar.app", pos: 3 },
+      { name: "Safari", path: "/Applications/Safari.app", pos: 4 },
+      { name: "Google Chrome", path: "/Applications/Google Chrome.app", pos: 5 },
+      { name: "Mail", path: "/Applications/Mail.app", pos: 6 },
+      { name: "iTunes", path: "/Applications/iTunes.app", pos: 7 },
+      { name: "iBooks", path: "/Applications/iBooks.app", pos: 8 },
+      { name: "App Store", path: "/Applications/App Store.app", pos: 9 },
+      { name: "System Preferences", path: "/Applications/System Preferences.app", pos: 10 },
+      { name: "Photos", path: "/Applications/Photos.app", pos: 11 },
+      { name: "iTerm", path: "/Applications/iTerm.app", pos: 12 },
+      { name: "Sublime Text", path: "/Applications/Sublime Text.app", pos: 13 },
+      { name: "VMware Fusion", path: "/Applications/VMware Fusion.app", pos: 14 }
+    ],
+    remove: [
+      "FaceTime",
+      "LaunchPad",
+      "Maps",
+      "Messages",
+      "Notes",
+      "Reminders",
+      "Siri"
+    ]
+  },
+  # Folder to add/remove to/from the Dock
+  folder: {
+    add: [
+      { path: "~/Documents", view: "grid", display: "folder" },
+      { path: "~/Music", view: "list", display: "stack" }
+    ],
+    remove: [
+      "~/Downloads"
+    ]
+  },
+  # URLs to add/remove to/from the Dock
+  url: {
+    add: [
+      { url: "vnc://server.local", label: "Server VNC" }
+    ],
+    remove: [
+      "https://google.com"
+    ]
+  },
+  settings: {
+    # Enable spring loading for all Dock items
+    spring_load: true,
+    # Speed up Mission Control animations
+    expose_animation_duration: 0.12,
+    # Group windows by application in Mission Control (i.e. use the old Exposé behavior instead)
+    expose_group_by_app: true,
+    # Set slightly transparent Dock
+    transparent: true,
+    # Minimize windows into their application’s icon
+    minimize_to_application: true,
+    # Enable highlight hover effect for the grid view of a stack (Dock)
+    mouse_over_hilite_stack: true,
+    # Don’t automatically rearrange Spaces based on most recent use
+    rearrange_spaces: false,
+    # Show indicator lights for open applications in the Dock
+    process_indicators: true,
+    # Don't make Dock icons of hidden applications translucent
+    show_hidden: true,
+    # Set the icon size of Dock items in pixels
+    tile_size: 36,
+    # Bottom right screen corner
+    bottom_right_corner: 2,
+    # Bottom right screen corner modifier
+    bottom_right_modifier: 0,
+    # Top left screen corner
+    top_left_corner: 5,
+    # Top left screen corner modifier
+    top_left_modifier: 0,
+    # Don’t show Dashboard as a Space
+    dashboard_in_overlay: true
+  }
+}
+
+# Ansible role to manage macOS standby, hibernate and sleep settings.
+macos_standby: {
+  # Set standby delay in seconds, default = 3600, 24 hours = 86400, disabled = false
+  standby_delay: 86400,
+  # Never go into computer sleep mode
+  sleep_delay: "Never",
+  # Set hibernate mode:
+  # hibernatemode = 0 (binary 0000) by default on supported desktops. The system will not back memory up to
+  #   persistent storage. The system must wake from the contents of memory; the system will lose context on
+  #   power loss. This is, historically, plain old sleep.
+  #
+  # hibernatemode = 3 (binary 0011) by default on supported portables. The system will store a copy of mem-ory memory
+  #   ory to persistent storage (the disk), and will power memory during sleep. The system will wake from
+  #   memory, unless a power loss forces it to restore from disk image.
+  #
+  # hibernatemode = 25 (binary 0001 1001) is only settable via pmset. The system will store a copy of mem-ory memory
+  #   ory to persistent storage (the disk), and will remove power to memory. The system will restore from
+  #   disk image. If you want "hibernation" - slower sleeps, slower wakes, and better battery life, you
+  #   should use this setting.
+  hibernate_mode: 0,
+  # Remove the sleep image file to save disk space
+  remove_sleepimage: false,
+  # Automatically illuminate built-in MacBook keyboard in low light
+  bezel_dim: true,
+  # Turn off keyboard illumination when computer is not used for x seconds
+  bezel_dim_delay: 300,
+  # Automatic termination of inactive apps
+  terminate_inactive: false,
+  # Set display sleep time delay in minutes
+  sleep_display: "Never",
+  # Set computer sleep time delay in minutes
+  sleep_computer: "Never",
+  # Set harddisk sleep time delay in minutes
+  sleep_harddisk: "Never",
+  # Set wake on network acess to either <on> or <off>
+  wake_on_lan: true
+}
+
+# Ansible role to configure the global gitconfig and .gitignore.
+gitconfig: {
+  # Sections and key-value pairs to include in the users .gitconfig
+  config: {
+    user: {
+      name: "{{ secrets.github.name }}",
+      email: "{{ secrets.github.email }}",
+      signingkey: "{{ secrets.github.signingkey }}"
+    },
+    alias: {
+      br: "branch",
+      ch: "log --cherry --pretty=format:\"%C(auto)%h (%ar) %an: %s\" --date-order --reverse",
+      ci: "commit",
+      co: "checkout",
+      df: "diff",
+      g: "grep -I",
+      lg: "log -p",
+      loq: "log --graph --all --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(bold white)— %an%C(reset)%C(bold yellow)%d%C(reset)' --abbrev-commit --date=relative",
+      st: "status",
+      find: 'log --pretty=\"format:%Cgreen%H %Cblue%s\" --name-status --grep'
+    },
+    color: {
+      branch: true,
+      diff: true,
+      grep: true,
+      interactive: true,
+      log: true,
+      status: true,
+      ui: true
+    },
+    core: {
+      autocrlf: "input",
+      whitespace: "space-before-tab,indent-with-non-tab,trailing-space,cr-at-eol",
+      editor: "/usr/local/bin/sublime -n -w",
+      attributesfile: "~/.gitattributes",
+      excludesfile: "~/.gitignore",
+      trustctime: false,
+      preloadindex: true,
+      abbrev: 12
+    },
+    diff: {
+      keepBackup: false
+    },
+    'diff "exif"': {
+      textconv: "exiftool"
+    },
+    format: {
+      pretty: "colourful"
+    },
+    pretty: {
+      colourful: '"format:%Cred%<(8)%h%Creset %<(75,trunc)%s %Cgreen%<(11)%cr%Creset%Cblue%<(17)% aN%Creset%C(yellow)% D%Creset %gN"',
+      live: '"format:%Cred%<(6)%h%Creset %<(50,trunc)%s%C(yellow)% D%Creset %gN"'
+    },
+    help: {
+      autocorrect: 1
+    },
+    merge: {
+      keepBackup: false
+    },
+    push: {
+      default: "simple"
+    },
+    'filter "media"': {
+      clean: "git-media-clean %f",
+      smudge: "git-media-smudge %f"
+    },
+    include: {
+      path: "~/.private"
+    },
+    'url "git://gist.github.com/"': {
+      insteadOf: '"gist:"'
+    }
+  },
+  # Lines to be included in users global .gitignore file
+  ignores: []
+}
+
+# Ansible role to setup a macOS hostname, smb name, netbios.
+macos_computername: {
+  # The macOS "user-friendly name for the system", appears mainly in GUI.
+  ComputerName: "marvin",
+  # The macOS hostname associated with hostname(1) and gethostname(3).
+  HostName: "marvin",
+  # The macOS hostname used for Bonjour-aware services on the local network.
+  LocalHostName: "marvin",
+  # The hosts Netbios advertising name.
+  NetBIOSName: "marvin"
+}
+
+# Ansible role that runs the macOS softwareupdate.
+macos_softwareupdate: {
+  # Software Update Check Interval set to x days
+  frequency: 1,
+  # Download or install only recommended updates (true) or all available updates (false)
+  recommended: false,
+  # Install software updates (true) or download only (false)
+  install: true,
+  # Show debug menu in AppStore
+  debug: true,
+  # Set the Develop menu and the Web Inspector in AppStore
+  webkit: true
+}
+
+# Ansible role to manage personal avatar pictures in macOS.
+macos_avatar: {
+  # Download avatar from remote URL, e.g. gravatar
+  url: "https://www.gravatar.com/avatar/87a6f83874350b4f04d5731b450585f1?s=250&d=mm&r=x"
+}
+
+# Ansible role to manage zsh and oh-my-zsh installations.
+macos_ohmyzsh: {
+  # Set zsh as default shell
+  default: true,
+  # Configure oh-my-zsh after install?
+  configure: false,
+  config: {
+    theme: "agnoster",
+    case_sensitive: false,
+    hyphen_insensitive: false,
+    disable_update_prompt: false,
+    disable_auto_update: false,
+    update_days: 13,
+    disable_ls_colors: false,
+    disable_auto_title: false,
+    disable_correction: false,
+    completion_waiting_dots: true,
+    disable_untracked_files_dirty: false,
+    custom: "$ZSH/custom",
+    plugins: "git"
+  }
+}
+
+# Ansible role to manage timemachine settings in macOS.
+macos_timemachine: {
+  # Disable local Time Machine snapshots
+  local: false,
+  # Prevent Time Machine from prompting to use new hard drives as backup volume
+  prompt_new: false
+}
+
+# Ansible role to manage a sublime installation on macOS.
+macos_sublime: {
+  # The Sublime license to set
+  license: "{{ secrets.sublime.license }}",
+  # Settings to be placed in the Sublime user preferences
+  preferences: {
+    theme: 'Soda Dark.sublime-theme',
+    color_scheme: "ackages/Material Theme/schemes/Material-Theme.tmTheme",
+    default_encoding: UTF-8,
+    default_line_ending: unix,
+    detect_indentation: false,
+    ensure_newline_at_eof_on_save: true,
+    file_exclude_patterns: [
+      ".DS_Store", "Desktop.ini", "*.pyc", "._*", "Thumbs.db", ".Spotlight-V100", ".Trashes", "*.aux",
+      "*.fls", "*.idx", "*.out", "*.fdb_latexmk", "*.pyc", "*.pyo", "*.exe", "*.dll", "*.obj", "*.o",
+      "*.a", "*.lib", "*.so", "*.dylib", "*.ncb", "*.sdf", "*.suo", "*.pdb", "*.idb", ".DS_Store",
+      "*.class", "*.psd", "*.db", "*.sublime-workspace"
+    ],
+    folder_exclude_patterns: [],
+    ignored_packages: [
+      "Vintage"
+    ],
+    font_face: Monaco,
+    font_size: 10,
+    highlight_modified_tabs: true,
+    hot_exit: false,
+    line_padding_bottom: 5,
+    match_brackets: true,
+    match_brackets_angle: true,
+    remember_open_files: false,
+    rulers: [
+      80
+    ],
+    show_encoding: true,
+    show_line_endings: true,
+    tab_size: 2,
+    translate_tabs_to_spaces: true,
+    trim_trailing_white_space_on_save: true,
+    word_wrap: true
+  },
+
+  # Packages to be installed via PackageControl.io
+  packagecontrol: [
+    "Ansible",
+    "AnsibleSnippets",
+    "ApplySyntax",
+    "BracketHighlighter",
+    "Case Conversion",
+    "Docker Based Build Systems",
+    "Dockerfile Syntax Highlighting",
+    "FileDiffs",
+    "Fix Mac Path",
+    "git",
+    "HTML-CSS-JS Prettify",
+    "LaTeXTools",
+    "LiveReload",
+    "Markdown​Editing",
+    "markupsafe",
+    "Material Theme",
+    "Package Control",
+    "Pretty JSON",
+    "Pretty YAML",
+    "python-jinja2",
+    "python-markdown",
+    "pyyaml",
+    "Remote​Subl",
+    "Side​Bar​Enhancements",
+    "SublimeLinter",
+    "SublimeLinter-chktex",
+    "SublimeLinter-contrib-ansible-lint",
+    "SublimeLinter-contrib-bashate",
+    "SublimeLinter-contrib-nginx-lint",
+    "SublimeLinter-contrib-sqlint",
+    "SublimeLinter-contrib-sublime-syntax",
+    "SublimeLinter-javac",
+    "SublimeLinter-jsl",
+    "SublimeLinter-json",
+    "SublimeLinter-xmllint",
+    "Terminal",
+    "Theme - Soda"
+  ]
+}
+
+# Ansible role to manage personal dotfiles.
+macos_dotfiles: {
+  # Containment directory for pulled git repositories
+  containment: "{{ ansible_env.HOME + '/dotfiles' }}",
+  # Git repositories to pull
+  repositories: [
+    { # Target name of the repository
+      name: "dotfiles",
+      # URL of the repository
+      url: "https://github.com/feffi/dotfiles.git",
+      # Symlinks to create from this repository, defaults to src= repo, dest= ~
+      symlinks: [
+        #{ file: ".homebrew.j2" },
+        { file: ".alias" },
+        { file: ".bash_logout" },
+        { file: ".bash_profile" },
+        { file: ".bash_prompt" },
+        { file: ".bashrc" },
+        { file: ".curlrc" },
+        { file: ".exports" },
+        { file: ".gemrc" },
+        { file: ".git" },
+        { file: ".gitattributes" },
+        { file: ".gitignore" },
+        { file: ".htoprc" },
+        { file: ".item2_shell_integration.bash" },
+        { file: ".screenrc" },
+        { file: ".wgetrc" },
+        { file: ".zshrc" },
+        { file: "workspace" }
+        #{ file: "test-dir", force: yes, owner: root, group: admin, mode: "0777" }
+      ]
+    }
+  ]
+}
+
+# Ansible role to set macOS "defaults" settings.
+macos_defaults: {
+  defaults: [
+    { domain: "/.Spotlight-V100/VolumeConfiguration", key: "Exclusions", type: "array", value: [ "/Volumes" ], description: "Disable Spotlight indexing for any volume that gets mounted and has not yet been indexed before." },
+    { domain: "com.apple.ActivityMonitor", key: "DiskGraphType", type: "integer", value: "1", description: "Show Data in the Disk graph (instead of IO)" },
+    { domain: "com.apple.ActivityMonitor", key: "IconType", type: "integer", value: "5", description: "Visualize CPU usage in the Activity Monitor Dock icon" },
+    { domain: "com.apple.ActivityMonitor", key: "NetworkGraphType", type: "integer", value: "1", description: "Show Data in the Network graph (instead of packets)" },
+    { domain: "com.apple.ActivityMonitor", key: "OpenMainWindow", type: "boolean", value: "true", description: "Show the main window when launching Activity Monitor" },
+    { domain: "com.apple.ActivityMonitor", key: "ShowCategory", type: "integer", value: "0", description: "Show all processes in Activity Monitor" },
+    { domain: "com.apple.ActivityMonitor", key: "SortColumn", type: "string", value: "CPUUsage", description: "Sort Activity Monitor results by CPU usage" },
+    { domain: "com.apple.ActivityMonitor", key: "SortDirection", type: "integer", value: "0", description: "Set the ActivityMonitor sort order" },
+    { domain: "com.apple.ActivityMonitor", key: "UpdatePeriod", type: "integer", value: "2", description: "Update frequency of stats in ActivityMonitor" },
+    { domain: "com.apple.AddressBook", key: "ABDefaultAddressCountryCode", type: "string", value: "de", description: "Set address format" },
+    { domain: "com.apple.AddressBook", key: "ABNameDisplay", type: "integer", value: "1", description: "Display format 'Last, First'" },
+    { domain: "com.apple.AddressBook", key: "ABNameSortingFormat", type: "string", value: "sortingLastName sortingFirstName", description: "Sort by last name" },
+    { domain: "com.apple.addressbook", key: "ABShowDebugMenu", type: "boolean", value: "true", description: "Show debug menu in Addressbook" },
+    { domain: "com.apple.archiveutility", key: "dearchive-move-after", type: "string", value: "~/.Trash", description: "Move archives to trash after extraction" },
+    { domain: "com.apple.archiveutility", key: "dearchive-reveal-after", type: "boolean", value: "false", description: "Don't reveal extracted items" },
+    { domain: "com.apple.BluetoothAudioAgent", key: "Apple Bitpool Min (editable)", type: "integer", value: "40", description: "Increase sound quality for Bluetooth headphones/headset" },
+    { domain: "com.apple.CrashReporter", key: "DialogType", type: "string", value: "none", description: "Disable the crash reporter" },
+    { domain: "com.apple.digihub", key: "com.apple.digihub.blank.cd.appeared", type: "dict", value: { action: 1 }, description: "Disable blank CD automatic action" },
+    { domain: "com.apple.digihub", key: "com.apple.digihub.blank.dvd.appeared", type: "dict", value: { action: 1 }, description: "Disable blank DVD automatic action" },
+    { domain: "com.apple.digihub", key: "com.apple.digihub.cd.music.appeared", type: "dict", value: { action: 1 }, description: "Disable music CD automatic action" },
+    { domain: "com.apple.digihub", key: "com.apple.digihub.cd.picture.appeared", type: "dict", value: { action: 1 }, description: "Disable picture CD automatic action" },
+    { domain: "com.apple.digihub", key: "com.apple.digihub.dvd.video.appeared", type: "dict", value: { action: 1 }, description: "Disable video DVD automatic action" },
+    { domain: "com.apple.DiskUtility", key: "advanced-image-options", type: "boolean", value: "true", description: "Enable advanced image availability in Disk Utility" },
+    { domain: "com.apple.DiskUtility", key: "DUDebugMenuEnabled", type: "boolean", value: "true", description: "Enable the debug menu in Disk Utility" },
+    { domain: "com.apple.driver.AppleBluetoothMultitouch.trackpad", key: "Clicking", type: "boolean", value: "false", description: "Disable tap to click" },
+    { domain: "com.apple.driver.AppleBluetoothMultitouch.trackpad", key: "TrackpadCornerSecondaryClick", type: "integer", value: "2", description: "Trackpad: map bottom right corner to right-click" },
+    { domain: "com.apple.driver.AppleBluetoothMultitouch.trackpad", key: "TrackpadRightClick", type: "boolean", value: "true", description: "Trackpad: map bottom right corner to right-click" },
+    { domain: "com.apple.dt.Xcode", key: "AlwaysShowTabBar", type: "boolean", value: "true", description: "Show tab bar" },
+    { domain: "com.apple.dt.Xcode", key: "DVTTextIndentUsingTabs", type: "boolean", value: "false", description: "Always use spaces for indenting" },
+    { domain: "com.apple.finder", key: "DesktopViewSettings:IconViewSettings:arrangeBy", type: "boolean", value: "grid", description: "Enable snap-to-grid for icons on the desktop" },
+    { domain: "com.apple.finder", key: "DesktopViewSettings:IconViewSettings:gridSpacing", type: "boolean", value: 100, description: "Increase grid spacing for icons on the desktop" },
+    { domain: "com.apple.finder", key: "DesktopViewSettings:IconViewSettings:iconSize", type: "boolean", value: 80, description: "Increase the size of icons on the desktop" },
+    { domain: "com.apple.finder", key: "DesktopViewSettings:IconViewSettings:labelOnBottom", type: "boolean", value: true, description: "Icon label position: true = bottom, false = right" },
+    { domain: "com.apple.finder", key: "DesktopViewSettings:IconViewSettings:showItemInfo", type: "boolean", value: true, description: "Show item info near icons on the desktop" },
+    { domain: "com.apple.finder", key: "FK_StandardViewSettings:IconViewSettings:arrangeBy", type: "boolean", value: "grid", description: "Enable snap-to-grid for icons in finder icon views" },
+    { domain: "com.apple.finder", key: "FK_StandardViewSettings:IconViewSettings:gridSpacing", type: "boolean", value: 100, description: "Increase grid spacing for icons in finder icon views" },
+    { domain: "com.apple.finder", key: "FK_StandardViewSettings:IconViewSettings:iconSize", type: "boolean", value: 80, description: "Increase the size of icons in finder icon views" },
+    { domain: "com.apple.finder", key: "FK_StandardViewSettings:IconViewSettings:showItemInfo", type: "boolean", value: true, description: "Show item info near icons in finder icon view" },
+    { domain: "com.apple.finder", key: "FXInfoPanesExpanded", type: "dict", value: { Privileges: true, MetaData: true, Comments: true, OpenWith: true, Preview: false, Name: true, General: true }, description: "Expand the following File Info panes: 'General', 'Open with', and 'Sharing & Permissions'" },
+    { domain: "com.apple.finder", key: "StandardViewSettings:IconViewSettings:arrangeBy", type: "boolean", value: "grid", description: "Enable snap-to-grid for icons in other icon views" },
+    { domain: "com.apple.finder", key: "StandardViewSettings:IconViewSettings:gridSpacing", type: "boolean", value: 100, description: "Increase grid spacing for icons in other icon views" },
+    { domain: "com.apple.finder", key: "StandardViewSettings:IconViewSettings:iconSize", type: "boolean", value: 80, description: "Increase the size of icons in other icon views" },
+    { domain: "com.apple.finder", key: "StandardViewSettings:IconViewSettings:showItemInfo", type: "boolean", value: true, description: "Show item info near icons other icon views" },
+    { domain: "com.apple.frameworks.diskimages", key: "skip-verify", type: "boolean", value: "true", description: "Don't verify disk images" },
+    { domain: "com.apple.frameworks.diskimages", key: "skip-verify-locked", type: "boolean", value: "true", description: "Don't verify locked disk images" },
+    { domain: "com.apple.frameworks.diskimages", key: "skip-verify-remote", type: "boolean", value: "true", description: "Don't verify remote disk images" },
+    { domain: "com.apple.iCal", key: "first day of week", type: "integer", value: "1", description: "Set the first day of the week to Monday" },
+    { domain: "com.apple.iCal", key: "IncludeDebugMenu", type: "boolean", value: "true", description: "Show debug menu in iCal" },
+    { domain: "com.apple.iCal", key: "n days of week", type: "integer", value: "7", description: "Set the days in a week" },
+    { domain: "com.apple.iCal", key: "Show time in Month View", type: "boolean", value: "true", description: "Show event times" },
+    { domain: "com.apple.iCal", key: "Show Week Numbers", type: "boolean", value: "true", description: "Show Week Numbers" },
+    { domain: "com.apple.LaunchServices", key: "LSQuarantine", type: "boolean", value: "false", description: "Don't show a warning when opening files downloaded from the Internet" },
+    { domain: "com.apple.mail", key: "AddressesIncludeNameOnPasteboard", type: "boolean", value: "false", description: "Copy email addresses as 'foo@example.com' instead of 'Foo Bar <foo@example.com>' in Mail.app" },
+    { domain: "com.apple.mail", key: "DisableInlineAttachmentViewing", type: "boolean", value: "true", description: "Disable inline attachments (just show the icons)" },
+    { domain: "com.apple.mail", key: "DisableReplyAnimations", type: "boolean", value: "true", description: "Disable reply animations in Mail.app" },
+    { domain: "com.apple.mail", key: "DisableSendAnimations", type: "boolean", value: "true", description: "Disable send animations in Mail.app" },
+    { domain: "com.apple.mail", key: "DraftsViewerAttributes:DisplayInThreadedMode", type: "string", value: "yes", add: true, description: "Display emails in threaded mode" },
+    { domain: "com.apple.mail", key: "DraftsViewerAttributes:SortedDescending", type: "string", value: "yes", add: true, description: "Display emails sorted by date" },
+    { domain: "com.apple.mail", key: "DraftsViewerAttributes:SortOrder", type: "string", value: "received-date", add: true, description: "Display emails oldest at the top" },
+    { domain: "com.apple.mail", key: "NSUserKeyEquivalents", type: "string", value: "@\\U21a9", add: true, description: "Add the keyboard shortcut ⌘ + Enter to send an email in Mail.app" },
+    { domain: "com.apple.mail", key: "SpellCheckingBehavior", type: "string", value: "NoSpellCheckingEnabled", description: "Disable automatic spell checking" },
+    { domain: "com.apple.menuextra.battery", key: "ShowPercent", type: "string", value: "NO", description: "Show remaining battery time in percent" },
+    { domain: "com.apple.menuextra.battery", key: "ShowTime", type: "string", value: "YES", description: "Show rmaining time in battery stats" },
+    { domain: "com.apple.messageshelper.MessageController", key: "SOInputLineSettings:automaticEmojiSubstitutionEnablediMessage", type: "boolean", value: false, add: true, description: "Disable automatic emoji substitution (i.e. use plain text smileys) in Messages.app" },
+    { domain: "com.apple.messageshelper.MessageController", key: "SOInputLineSettings:automaticQuoteSubstitutionEnabled", type: "boolean", value: false, add: true, description: "Disable smart quotes as it’s annoying for messages that contain code in Messages.app" },
+    { domain: "com.apple.messageshelper.MessageController", key: "SOInputLineSettings:continuousSpellCheckingEnabled", type: "boolean", value: false, add: true, description: "Disable continuous spell checking in Messages.app" },
+    { domain: "com.apple.Safari", key: "AutoFillPasswords", type: "boolean", value: "false", description: "Don't remember passwords" },
+    { domain: "com.apple.Safari", key: "AutoOpenSafeDownloads", type: "boolean", value: "false", description: "Prevent Safari from opening ‘safe’ files automatically after downloading" },
+    { domain: "com.apple.Safari", key: "com.apple.Safari.ContentPageGroupIdentifier.WebKit2BackspaceKeyNavigationEnabled", type: "boolean", value: "true", description: "Allow hitting the Backspace key to go to the previous page in history" },
+    { domain: "com.apple.Safari", key: "com.apple.Safari.ContentPageGroupIdentifier.WebKit2DeveloperExtrasEnabled", type: "boolean", value: "true", description: "Enable the Develop menu and the Web Inspector in Safari" },
+    { domain: "com.apple.Safari", key: "com.apple.Safari.ContentPageGroupIdentifier.WebKit2JavaEnabled", type: "boolean", value: "false", description: "Disable Java" },
+    { domain: "com.apple.Safari", key: "com.apple.Safari.ContentPageGroupIdentifier.WebKit2JavaScriptCanOpenWindowsAutomatically", type: "boolean", value: "false", description: "Block pop-up windows" },
+    { domain: "com.apple.Safari", key: "com.apple.Safari.ContentPageGroupIdentifier.WebKit2JavaScriptEnabled", type: "boolean", value: "true", description: "Enable JavaScript" },
+    { domain: "com.apple.Safari", key: "com.apple.Safari.ContentPageGroupIdentifier.WebKit2PluginsEnabled", type: "boolean", value: "true", description: "Enable plug-ins" },
+    { domain: "com.apple.Safari", key: "com.apple.Safari.ContentPageGroupIdentifier.WebKit2TabsToLinks", type: "boolean", value: "true", description: "Press Tab to highlight each item on a web page" },
+    { domain: "com.apple.Safari", key: "com.apple.Safari.ReadingListFetcher.WebKit2JavaScriptEnabled", type: "boolean", value: "false", description: "Reading list" },
+    { domain: "com.apple.Safari", key: "com.apple.Safari.ReadingListFetcher.WebKit2LoadsImagesAutomatically", type: "boolean", value: "false", description: "Reading list" },
+    { domain: "com.apple.Safari", key: "com.apple.Safari.ReadingListFetcher.WebKit2LoadsSiteIconsIgnoringImageLoadingPreference", type: "boolean", value: "true", description: "Reading list" },
+    { domain: "com.apple.Safari", key: "com.apple.Safari.ReadingListFetcher.WebKit2PluginsEnabled", type: "boolean", value: "false", description: "Reading list" },
+    { domain: "com.apple.Safari", key: "CommandClickMakesTabs", type: "boolean", value: "true", description: "Command-clicking a link creates tabs" },
+    { domain: "com.apple.Safari", key: "DebugSnapshotsUpdatePolicy", type: "integer", value: "2", description: "Disable Safari’s thumbnail cache for History and Top Sites" },
+    { domain: "com.apple.Safari", key: "FindOnPageMatchesWordStartsOnly", type: "boolean", false: "true", description: "Make Safari’s search banners default to Contains instead of Starts With" },
+    { domain: "com.apple.Safari", key: "HomePage", type: "string", value: "about:blank", description: "Set Safari’s home page to `about:blank` for faster loading" },
+    { domain: "com.apple.Safari", key: "IncludeDevelopMenu", type: "boolean", value: "true", description: "Enable the Develop menu and the Web Inspector in Safari" },
+    { domain: "com.apple.Safari", key: "IncludeInternalDebugMenu", type: "boolean", value: "true", description: "Enable Safari’s debug menu" },
+    { domain: "com.apple.Safari", key: "InstallExtensionUpdatesAutomatically", type: "boolean", value: "true", description: "Update extensions automatically" },
+    { domain: "com.apple.Safari", key: "NewTabBehavior", type: "integer", value: "1", description: "New tabs open with: Empty Page" },
+    { domain: "com.apple.Safari", key: "NewWindowBehavior", type: "integer", value: "1", description: "New windows open with: Empty Page" },
+    { domain: "com.apple.Safari", key: "OpenNewTabsInFront", type: "boolean", value: "false", description: "Don't make new tabs active" },
+    { domain: "com.apple.Safari", key: "ProxiesInBookmarksBar", type: "string", value: "()", description: "Remove useless icons from Safari’s bookmarks bar" },
+    { domain: "com.apple.Safari", key: "SendDoNotTrackHTTPHeader", type: "boolean", value: "true", description: "Do not track" },
+    { domain: "com.apple.Safari", key: "ShowFavoritesBar", type: "boolean", value: "true", description: "Hide Safari’s bookmarks bar by default" },
+    { domain: "com.apple.Safari", key: "ShowFullURLInSmartSearchField", type: "boolean", value: "true", description: "Show the full URL in the address bar (note: this still hides the scheme)" },
+    { domain: "com.apple.Safari", key: "ShowSidebarInTopSites", type: "boolean", value: "false", description: "Hide Safari’s sidebar in Top Sites" },
+    { domain: "com.apple.Safari", key: "ShowStatusBar", type: "boolean", value: "true", description: "Safari: show status bar" },
+    { domain: "com.apple.Safari", key: "SuppressSearchSuggestions", type: "boolean", value: "true", description: "Privacy: don’t send search queries to Apple" },
+    { domain: "com.apple.Safari", key: "TabCreationPolicy", type: "boolean", value: "1", description: "Open pages in tabs instead of windows: automatically" },
+    { domain: "com.apple.Safari", key: "UniversalSearchEnabled", type: "boolean", value: "false", description: "Privacy: don’t send search queries to Apple" },
+    { domain: "com.apple.Safari", key: "WarnAboutFraudulentWebsites", type: "boolean", value: "true", description: "Warn About Fraudulent Websites" },
+    { domain: "com.apple.Safari", key: "WebKitDeveloperExtrasEnabledPreferenceKey", type: "boolean", value: "true", description: "Enable the Develop menu in Safari" },
+    { domain: "com.apple.Safari", key: "WebKitJavaEnabled", type: "boolean", value: "false", description: "Enable Java" },
+    { domain: "com.apple.Safari", key: "WebKitJavaScriptCanOpenWindowsAutomatically", type: "boolean", value: "false", description: "Block pop-up windows" },
+    { domain: "com.apple.Safari", key: "WebKitJavaScriptEnabled", type: "boolean", value: "true", description: "Enable JavaScript" },
+    { domain: "com.apple.Safari", key: "WebKitPluginsEnabled", type: "boolean", value: "true", description: "Enable plug-ins" },
+    { domain: "com.apple.Safari", key: "WebKitTabToLinksPreferenceKey", type: "boolean", value: "true", description: "Press Tab to highlight each item on a web page" },
+    { domain: "com.apple.spotlight", key: "orderedItems", type: "array", value: [ '{"enabled" = 1;"name" = "APPLICATIONS";}', '{"enabled" = 1;"name" = "SYSTEM_PREFS";}', '{"enabled" = 1;"name" = "DIRECTORIES";}', '{"enabled" = 1;"name" = "MOVIES";}', '{"enabled" = 0;"name" = "PDF";}', '{"enabled" = 0;"name" = "FONTS";}', '{"enabled" = 0;"name" = "DOCUMENTS";}', '{"enabled" = 0;"name" = "MESSAGES";}', '{"enabled" = 0;"name" = "CONTACT";}', '{"enabled" = 0;"name" = "EVENT_TODO";}', '{"enabled" = 0;"name" = "IMAGES";}', '{"enabled" = 0;"name" = "BOOKMARKS";}', '{"enabled" = 0;"name" = "MUSIC";}', '{"enabled" = 0;"name" = "PRESENTATIONS";}', '{"enabled" = 0;"name" = "SPREADSHEETS";}', '{"enabled" = 0;"name" = "SOURCE";}' ], description: "Change indexing order and disable some file types" },
+    { domain: "com.apple.systemuiserver", key: "menuExtras", type: "array", value: [ "/System/Library/CoreServices/Menu Extras/Bluetooth.menu", "/System/Library/CoreServices/Menu Extras/AirPort.menu", "/System/Library/CoreServices/Menu Extras/Battery.menu", "/System/Library/CoreServices/Menu Extras/Clock.menu" ], description: "Menu bar: hide the useless Time Machine and Volume icons" },
+    { domain: "com.apple.terminal", key: "Default Window Settings", type: "string", value: "Pro", description: "Set the 'Basic Improved' as the default" },
+    { domain: "com.apple.terminal", key: "Startup Window Settings", type: "string", value: "Pro", description: "Set the 'Basic Improved' as the default" },
+    { domain: "com.apple.terminal", key: "StringEncodings", type: "array", value: [ "4" ], description: "Only use UTF-8 in Terminal.app" },
+    { domain: "com.apple.TextEdit", key: "PlainTextEncoding", type: "integer", value: "4", description: "Open and save files as UTF-8 in TextEdit" },
+    { domain: "com.apple.TextEdit", key: "PlainTextEncodingForWrite", type: "integer", value: "4", description: "Open and save files as UTF-8 in TextEdit" },
+    { domain: "com.apple.TextEdit", key: "RichText", type: "integer", value: "0", description: "Use plain text mode for new TextEdit documents" },
+    { domain: "com.google.Chrome", key: "AppleEnableSwipeNavigateWithScrolls", type: "boolean", value: "false", description: "Disable the all too sensitive backswipe on trackpads in google-chrome" },
+    { domain: "com.google.Chrome", key: "AppleEnableSwipeNavigateWithScrolls", type: "boolean", value: "false", description: "Disable the all too sensitive backswipe on trackpads" },
+    { domain: "com.google.Chrome", key: "DisablePrintPreview", type: "boolean", value: "true", description: "Use the system-native print preview dialog in google-chrome" },
+    { domain: "com.google.Chrome.canary", key: "AppleEnableSwipeNavigateWithScrolls", type: "boolean", value: "false", description: "Disable the all too sensitive backswipe on trackpads in google-chrome-carnary" },
+    { domain: "com.google.Chrome.canary", key: "DisablePrintPreview", type: "boolean", value: "true", description: "Use the system-native print preview dialog in google-chrome-carnary" },
+    { domain: "com.googlecode.iterm2", key: "PromptOnQuit", type: "boolean", value: "false", description: "Don’t display the annoying prompt when quitting iTerm" },
+    { domain: "com.vmware.fusion", key: "showStartMenu3", type: "integer", value: "0", description: "VMware Fusion: Applications menu: Show in Menu Bar: Never" },
+    { domain: "NSGlobalDomain", key: "ApplePressAndHoldEnabled", type: "boolean", value: "false", description: "Enable key repeat" },
+    { domain: "NSGlobalDomain", key: "com.apple.mouse.tapBehavior", type: "integer", value: "1", description: "Trackpad: enable tap to click for this user and for the login screen" },
+    { domain: "NSGlobalDomain", key: "com.apple.trackpad.enableSecondaryClick", type: "boolean", value: "true", description: "Trackpad: map bottom right corner to right-click" },
+    { domain: "NSGlobalDomain", key: "com.apple.trackpad.trackpadCornerClickBehavior", type: "integer", value: "1", description: "Trackpad: map bottom right corner to right-click" },
+    { domain: "NSGlobalDomain", key: "InitialKeyRepeat", type: "integer", value: "10", description: "Set initial keyboard key repeat rate" },
+    { domain: "NSGlobalDomain", key: "KeyRepeat", type: "integer", value: "1", description: "Set keyboard repeat rate" },
+    { domain: "NSGlobalDomain", key: "NSAutomaticDashSubstitutionEnabled", type: "boolean", value: "false", description: "Disable smart dashes" },
+    { domain: "NSGlobalDomain", key: "NSAutomaticQuoteSubstitutionEnabled", type: "boolean", value: "false", description: "Disable smart quotes" },
+    { domain: "NSGlobalDomain", key: "NSAutomaticSpellingCorrectionEnabled", type: "boolean", value: "false", description: "Disable correct spelling automatically" },
+    { domain: "NSGlobalDomain", key: "NSNavPanelExpandedStateForSaveMode", type: "boolean", value: "true", description: "Expand Save Panel by Default (System)" },
+    { domain: "NSGlobalDomain", key: "NSNavPanelExpandedStateForSaveMode2", type: "boolean", value: "true", description: "Expand Save Panel by Default (App)" },
+    { domain: "NSGlobalDomain", key: "NSQuitAlwaysKeepsWindows", type: "boolean", value: "false", description: "Don't restore windows when quitting or re-opening apps" },
+    { domain: "NSGlobalDomain", key: "NSTextShowsControlCharacters", type: "boolean", value: "true", description: "Display ASCII control characters in caret notation" },
+    { domain: "NSGlobalDomain", key: "NSWindowResizeTime", type: "float", value: "0.001", description: "Showing and hiding sheets, resizing preference windows, zooming windows" },
+    { domain: "NSGlobalDomain", key: "PMPrintingExpandedStateForPrint", type: "boolean", value: "true", description: "Expand Print Panel by Default (System)" },
+    { domain: "NSGlobalDomain", key: "PMPrintingExpandedStateForPrint2", type: "boolean", value: "true", description: "Expand Print Panel by Default (App)" },
+    { domain: "NSGlobalDomain", key: "WebKitDeveloperExtras", type: "boolean", value: "true", description: "Add a context menu item for showing the web inspector to web views" },
+    { domain: "om.google.Chrome", key: "ExtensionInstallSources", type: "array", value: [ "https://gist.githubusercontent.com/", "http://userscripts.org/*" ], description: "Allow installing user scripts via GitHub Gist or Userscripts.org in google-chrome" },
+    { domain: "om.google.Chrome.canary", key: "ExtensionInstallSources", type: "array", value: [ "https://gist.githubusercontent.com/", "http://userscripts.org/*" ], description: "Allow installing user scripts via GitHub Gist or Userscripts.org in google-chrome-carnary" }
+  ]
+}
+
+# Manages macOS app installation with homebrew.
+macos_homebrew: {
+  # Homebrew taps to tap
+  taps: [
+    { name: "bramstein/webfonttools" },
+    { name: "caskroom/cask" },
+    { name: "caskroom/fonts" },
+    { name: "caskroom/versions" },
+    { name: "codekitchen/dinghy" },
+    { name: "homebrew/binary" },
+    { name: "homebrew/bundle" },
+    { name: "homebrew/completions" },
+    { name: "homebrew/python" },
+    { name: "homebrew/science" },
+    { name: "homebrew/services" },
+    { name: "homebrew/versions" }
+  ],
+  # Homebrew packages to install
+  packages: [
+    { name: "afl-fuzz" },
+    { name: "aircrack-ng" },
+    { name: "amap" },
+    { name: "ansible" },
+    { name: "ansible-cmdb" },
+    { name: "ansible-lint" },
+    { name: "arp-scan" },
+    { name: "arp-sk" },
+    { name: "arping" },
+    { name: "arpoison" },
+    { name: "base64" },
+    { name: "bash" },
+    { name: "bash-completion2" },
+    { name: "bchunk" },
+    { name: "binwalk" },
+    { name: "bulk_extractor" },
+    { name: "burp" },
+    { name: "c-ares" },
+    { name: "capstone" },
+    { name: "ccd2iso" },
+    { name: "cdrdao" },
+    { name: "cdrtools" },
+    { name: "coreutils" },
+    { name: "crunch" },
+    { name: "curl" },
+    { name: "cuty_capt" },
+    { name: "dc3dd" },
+    { name: "ddrescue" },
+    { name: "dns2tcp" },
+    { name: "dnsmap" },
+    { name: "dnsperf" },
+    { name: "dnstop" },
+    { name: "dnstracer" },
+    { name: "docker-machine-driver-xhyve" },
+    { name: "dos2unix" },
+    { name: "ettercap" },
+    { name: "exif" },
+    { name: "exiftool" },
+    { name: "exploitdb" },
+    { name: "faac" },
+    { name: "ffmpeg" },
+    { name: "ffmpegthumbnailer" },
+    { name: "findutils" },
+    { name: "fping" },
+    { name: "fragroute" },
+    { name: "geoip" },
+    { name: "gist" },
+    { name: "git" },
+    { name: "git-lfs" },
+    { name: "gnupg" },
+    { name: "gnutls" },
+    { name: "go" },
+    { name: "gptfdisk" },
+    { name: "graphviz" },
+    { name: "grep" },
+    { name: "hammerspoon" },
+    { name: "handbrake" },
+    { name: "haproxy" },
+    { name: "hashcat" },
+    { name: "hexedit" },
+    { name: "hping" },
+    { name: "htop-osx" },
+    { name: "http-server" },
+    { name: "httpie" },
+    { name: "httpstat" },
+    { name: "httptunnel" },
+    { name: "hydra" },
+    { name: "hyper" },
+    { name: "iftop" },
+    { name: "iodine" },
+    { name: "iperf" },
+    { name: "iperf3" },
+    { name: "iproute2mac" },
+    { name: "jmeter" },
+    { name: "john-jumbo" },
+    { name: "jq" },
+    { name: "kompose" },
+    { name: "kube-aws" },
+    { name: "kubectx" },
+    { name: "kubernetes-cli" },
+    { name: "kubernetes-helm" },
+    { name: "lame" },
+    { name: "libffi" },
+    { name: "lsof" },
+    { name: "lynis" },
+    { name: "masscan" },
+    { name: "maven" },
+    { name: "mdf2iso" },
+    { name: "mitmproxy" },
+    { name: "mobile-shell" },
+    { name: "moreutils" },
+    { name: "mtr" },
+    { name: "ncrack" },
+    { name: "ndpi" },
+    { name: "netcat" },
+    { name: "netcat6" },
+    { name: "nettle" },
+    { name: "nikto" },
+    { name: "nmap" },
+    { name: "node-build" },
+    { name: "nrg2iso" },
+    { name: "ntopng" },
+    { name: "openssh" },
+    { name: "openssl" },
+    { name: "ophcrack" },
+    { name: "p7zip" },
+    { name: "pdfcrack" },
+    { name: "prettyping" },
+    { name: "ptunnel" },
+    { name: "pv" },
+    { name: "pwnat" },
+    { name: "rancher-cli" },
+    { name: "rancher-compose" },
+    { name: "scapy" },
+    { name: "screen" },
+    { name: "sfnt2woff" },
+    { name: "sfnt2woff-zopfli" },
+    { name: "shellcheck" },
+    { name: "sipp" },
+    { name: "skipfish" },
+    { name: "spoof-mac" },
+    { name: "sqlbrute" },
+    { name: "sqlmap" },
+    { name: "ssldump" },
+    { name: "sslh" },
+    { name: "ssllabs-scan" },
+    { name: "sslscan" },
+    { name: "sslyze" },
+    { name: "stormssh" },
+    { name: "stormssh-completion" },
+    { name: "tcpdump" },
+    { name: "tcpreplay" },
+    { name: "tcptraceroute" },
+    { name: "terminal-notifier" },
+    { name: "testdisk" },
+    { name: "testssl" },
+    { name: "thc-pptp-bruter" },
+    { name: "the_silver_searcher" },
+    { name: "tree" },
+    { name: "truecrack" },
+    { name: "ucspi-tcp" },
+    { name: "udptunnel" },
+    { name: "vtop" },
+    { name: "watch" },
+    { name: "watchman" },
+    { name: "wireshark" },
+    { name: "woff2" },
+    { name: "xhyve" },
+    { name: "zerotrace" },
+    { name: "zsh" },
+    { name: "zsh-autosuggestions" }
+  ],
+  # Homebrew cask apps to install
+  casks: [
+    { name: "1password" },
+    { name: "armitage" },
+    { name: "audacity" },
+    { name: "betterzip" },
+    { name: "betterzipql" },
+    { name: "bittorrent-sync" },
+    { name: "burn" },
+    { name: "clamxav" },
+    { name: "cocoapacketanalyze" },
+    { name: "coconutbattery" },
+    { name: "coconutbattery" },
+    { name: "controlplane" },
+    { name: "controlplane" },
+    { name: "cyberduck" },
+    { name: "dropbox" },
+    { name: "filezilla" },
+    { name: "firefox" },
+    { name: "franz" },
+    { name: "gephi" },
+    { name: "gfxcardstatus" },
+    { name: "godot" },
+    { name: "google-chrome" },
+    { name: "gpgtools" },
+    { name: "grandperspective" },
+    { name: "growlnotify" },
+    { name: "handbrake" },
+    { name: "handbrake" },
+    { name: "handbrakecli" },
+    { name: "istat-menus" },
+    { name: "iterm2" },
+    { name: "jdownloader" },
+    { name: "keepassx" },
+    { name: "keka" },
+    { name: "keka" },
+    { name: "launchcontrol" },
+    { name: "launchcontrol" },
+    { name: "little-snitch" },
+    { name: "macpass" },
+    { name: "maltego" },
+    { name: "marp" },
+    { name: "nvalt" },
+    { name: "nvalt" },
+    { name: "openoffice" },
+    { name: "qlcolorcode" },
+    { name: "qlcolorcode" },
+    { name: "qlimagesize" },
+    { name: "qlmarkdown" },
+    { name: "qlmarkdown" },
+    { name: "qlprettypatch" },
+    { name: "qlrest" },
+    { name: "qlstephen" },
+    { name: "qlstephen" },
+    { name: "qlvideo" },
+    { name: "quicklook-csv" },
+    { name: "quicklook-json" },
+    { name: "quicklook-json" },
+    { name: "skim" },
+    { name: "sofortbild" },
+    { name: "steam" },
+    { name: "suspicious-package" },
+    { name: "teamviewer" },
+    { name: "tftpserver" },
+    { name: "the-unarchiver" },
+    { name: "tinyumbrella" },
+    { name: "tinyumbrella" },
+    { name: "tinyumbrella" },
+    { name: "vagrant" },
+    { name: "virtualbox-beta" },
+    { name: "vlc" },
+    { name: "vlc-nightly" },
+    { name: "wakeonlan" },
+    { name: "webpquicklook" },
+    { name: "wireshark" }
+  ],
+  # Brewfile paths to process
+  brews: [
+    "{{ ansible_env.HOME + '/workspace' }}/dotfiles/Brewfile"
+  ]
+}
+
+## Optimizations _only_ for non Apple SSDs.
+#macos_ssd: {
+#  # Enable TRIM. See http://en.wikipedia.org/wiki/TRIM
+#  trim: false,
+#  # Enable Sudden Motion Sensor technology. See https://en.wikipedia.org/wiki/Sudden_Motion_Sensor
+#  sms: false,
+#  # Disable file access time. See https://en.wikipedia.org/wiki/Access_time
+#  noatime: false,
+#  # Where to put the daemon to set the noatime
+#  noatime_plist: "/Library/LaunchDaemons/com.noatime.plist"
+#}
+
+# Ansible role to manage git repositories.
+git_repos: {
+  # Containment directory for pulled git repositories
+  containment: "{{ ansible_env.HOME + '/workspace' }}",
+  # Git repositories to pull
+  repositories: [
+    { name: "ansible-git-config", url: "https://github.com/feffi/ansible-git-config.git" },
+    { name: "ansible-git-repos", url: "https://github.com/feffi/ansible-git-repos.git" },
+    { name: "ansible-macos-dock", url: "https://github.com/feffi/ansible-macos-dock.git" },
+    { name: "ansible-include-vars", url: "https://github.com/feffi/ansible-include-vars.git" },
+    { name: "ansible-macos-defaults", url: "https://github.com/feffi/ansible-macos-defaults.git" },
+    { name: "ansible-macos-settings", url: "https://github.com/feffi/ansible-macos-settings.git" },
+    { name: "ansible-macos-standby", url: "https://github.com/feffi/ansible-macos-standby.git" },
+    { name: "ansible-macos-homebrew", url: "https://github.com/feffi/ansible-macos-homebrew.git" },
+    { name: "ansible-macos-ui", url: "https://github.com/feffi/ansible-macos-ui.git" },
+    { name: "ansible-macos-finder", url: "https://github.com/feffi/ansible-macos-finder.git" },
+    { name: "ansible-macos-softwareupdate", url: "https://github.com/feffi/ansible-macos-softwareupdate.git" },
+    { name: "ansible-macos-timemachine", url: "https://github.com/feffi/ansible-macos-timemachine.git" },
+    { name: "ansible-macos-sublime", url: "https://github.com/feffi/ansible-macos-sublime.git" },
+    { name: "ansible-macos-ohmyzsh", url: "https://github.com/feffi/ansible-macos-ohmyzsh.git" },
+    { name: "ansible-macos-dotfiles", url: "https://github.com/feffi/ansible-macos-dotfiles.git" },
+    { name: "ansible-debug", url: "https://github.com/feffi/ansible-debug.git" },
+    { name: "ansible-macos-avatar", url: "https://github.com/feffi/ansible-macos-avatar.git" },
+    { name: "ansible-macos-ssd", url: "https://github.com/feffi/ansible-macos-ssd.git" },
+    { name: "ansible-macos-computername", url: "https://github.com/feffi/ansible-macos-computername.git" },
+    { name: "ansible-macos-bootstrap", url: "https://github.com/feffi/ansible-macos-bootstrap.git" }
+  ]
+}
+
+# Ansible role to manage python/pip and packages.
+macos_pip: {
+  # Packages to install via python pip
+  packages: [
+    "dpkt",
+    "pypcap"
+  ]
+}
+
+# Ansible role to manage ssh configs.
+ssh_config: {
+  # Destination of the config file
+  destination: "{{ ansible_env.HOME + '/.ssh/config' }}",
+
+  # Sections and key-value pairs to include in the users .gitconfig
+  config: [
+    { Host: "localhost local lh", Hostname: "localhost.local", User: "fooo" },
+    { Host: "github.com github", HostName: "github.com", Port: 443, User: "fooo"},
+    { Host: "*",
+      Port: 22,
+      User: "fooo",
+      ForwardAgent: "yes",
+      ServerAliveInterval: 60,
+      ServerAliveCountMax: 10,
+      IdentityFile: "~/.ssh/fooo.ed25519",
+      ControlMaster: "auto",
+      ControlPath: "~/.ssh/control-%r@%h:%p",
+      ControlPersist: "5m",
+      Compression: "yes",
+      CompressionLevel: 9,
+      KeepAlive: "yes",
+      TCPKeepAlive: "yes",
+      RemoteForward: "127.0.0.1:52698 127.0.0.1:52698"
+    }
+  ]
+}
+
+# Ansible role to manage timezone settings in macOS.
+macos_timezone: {
+  # Set the timezone; see `systemsetup -listtimezones` for other values
+  timezone: "Europe/Berlin",
+  # Set 24-Hour time scale
+  24hour: true,
+  # Set the current locale
+  locale: "de_DE",
+  # Set the current currency
+  currency: "EUR",
+  # Set available default languages
+  languages: [ "de", "en" ],
+  # Set locale to metric units scale
+  use_metric_units: true,
+  # Set the current measurement units
+  measurement_units: "Centimeters"
+}
