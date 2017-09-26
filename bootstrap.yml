@@ -11,23 +11,24 @@
     }
   roles:
     - { role: feffi.macos-include-vars }
-#    - { role: feffi.debug }
+    - { role: feffi.debug }
 #    - { role: feffi.ssh-config }
-    - { role: feffi.macos-defaults }
-    - { role: feffi.macos-computername }
-    - { role: feffi.git-config }
     - { role: feffi.macos-homebrew }
-    - { role: feffi.macos-softwareupdate }
-    - { role: feffi.macos-avatar }
-    - { role: feffi.macos-ohmyzsh }
-    - { role: feffi.macos-dotfiles }
-    - { role: feffi.macos-settings }
-    - { role: feffi.macos-dock }
-    - { role: feffi.macos-sublime }
-    - { role: feffi.macos-standby }
-    - { role: feffi.macos-finder }
-    - { role: feffi.macos-git-repos }
     - { role: feffi.macos-pip }
+    - { role: feffi.macos-softwareupdate }
     - { role: feffi.macos-timemachine }
+    - { role: feffi.macos-ohmyzsh }
+    - { role: feffi.git-config }
+    - { role: feffi.macos-dotfiles }
+    - { role: feffi.macos-computername }
+    - { role: feffi.macos-timezone }
+    - { role: feffi.macos-standby }
+    - { role: feffi.macos-defaults }
+    - { role: feffi.macos-settings }
     - { role: feffi.macos-ui }
+    - { role: feffi.macos-finder }
+    - { role: feffi.macos-dock }
+    - { role: feffi.macos-avatar }
+    - { role: feffi.macos-sublime }
+    - { role: feffi.macos-git-repos }
     #- { role: feffi.macos-ssd }

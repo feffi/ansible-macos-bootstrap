@@ -1,6 +1,5 @@
 ---
 language: objective-c
-cache: pip
 os: osx
 sudo: required
 osx_image: xcode9
