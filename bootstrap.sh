@@ -13,6 +13,7 @@ WHITE='\e[1;37m'
 COLOR_OFF='\e[0m'
 
 VERBOSE=0
+ANSIBLE_VERSION="2.4.0.0"
 ORIGINAL_PWD=$PWD
 OPTS="vhi:r:c:"
 
@@ -164,7 +165,7 @@ function install_pip {
 function install_ansible {
   output_header "Installing Ansible"
   if ! exists ansible; then
-    fail_on_error "sudo pip install -I ansible==2.3.2.0"
+    fail_on_error "sudo pip install -I ansible==$ANSIBLE_VERSION"
     if ! exists ansible; then
       error "Error installing Ansible."
     else
