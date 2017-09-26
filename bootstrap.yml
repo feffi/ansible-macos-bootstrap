@@ -4,7 +4,7 @@
   #become: true
   gather_facts: true
   vars:
-    DEBUG: true
+    #DEBUG: true
     # Include custom vars from defined locations
     macos_include_vars: {
       paths: "{{ cli_paths | default( inventory_dir + '/.macos-boostrap' ) }}"
