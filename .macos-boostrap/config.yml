@@ -588,7 +588,7 @@ macos_defaults: {
     { domain: "com.apple.Safari", key: "com.apple.Safari.ReadingListFetcher.WebKit2PluginsEnabled", type: "boolean", value: "false", description: "Reading list" },
     { domain: "com.apple.Safari", key: "CommandClickMakesTabs", type: "boolean", value: "true", description: "Command-clicking a link creates tabs" },
     { domain: "com.apple.Safari", key: "DebugSnapshotsUpdatePolicy", type: "integer", value: "2", description: "Disable Safari’s thumbnail cache for History and Top Sites" },
-    { domain: "com.apple.Safari", key: "FindOnPageMatchesWordStartsOnly", type: "boolean", false: "true", description: "Make Safari’s search banners default to Contains instead of Starts With" },
+    { domain: "com.apple.Safari", key: "FindOnPageMatchesWordStartsOnly", type: "boolean", value: "false", description: "Make Safari’s search banners default to Contains instead of Starts With" },
     { domain: "com.apple.Safari", key: "HomePage", type: "string", value: "about:blank", description: "Set Safari’s home page to `about:blank` for faster loading" },
     { domain: "com.apple.Safari", key: "IncludeDevelopMenu", type: "boolean", value: "true", description: "Enable the Develop menu and the Web Inspector in Safari" },
     { domain: "com.apple.Safari", key: "IncludeInternalDebugMenu", type: "boolean", value: "true", description: "Enable Safari’s debug menu" },
