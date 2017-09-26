@@ -211,7 +211,7 @@ install_clt
 install_pip
 install_ansible
 $(which ansible-galaxy) install -f -r requirements.yml -p roles
-$(which ansible-playbook) -i "localhost" bootstrap.yml --extra-vars='cli_path: [ $1 ]'
+$(which ansible-playbook) -i "inventory" bootstrap.yml --connection=local --extra-vars='cli_path: [ $1 ]'
 
 ###############################################################################
 # Kill all affected applications                                              #
