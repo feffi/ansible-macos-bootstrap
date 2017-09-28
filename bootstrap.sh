@@ -100,7 +100,12 @@ OPTIONS:
 EOF
 }
 
-# credits https://github.com/boxcutter/osx/blob/master/script/xcode-cli-tools.sh
+###################################################################################
+# Install: Installing Command Line Tools                                          #
+#                                                                                 #
+# credits: https://github.com/boxcutter/osx/blob/master/script/xcode-cli-tools.sh #
+###################################################################################
+
 function install_clt {
   output_header "Installing Command Line Tools"
 
@@ -111,6 +116,7 @@ function install_clt {
 
   # Get and install Xcode CLI tools
   OSX_VERS=$(sw_vers -productVersion | awk -F "." '{print $2}')
+  output_running "Detected macOS $(sw_vers -productVersion)"
 
   # on 10.9+, we can leverage SUS to get the latest CLI tools
   if [ "$OSX_VERS" -ge 9 ]; then
@@ -119,8 +125,10 @@ function install_clt {
     touch /tmp/.com.apple.dt.CommandLineTools.installondemand.in-progress
     # find the CLI Tools update
     PROD=$(softwareupdate -l | grep "\*.*Command Line" | head -n 1 | awk -F"*" '{print $2}' | sed -e 's/^ *//' | tr -d '\n')
+    output_running "Installing '$PROD'"
+
     # install it
-    softwareupdate -i "$PROD" -v
+    softwareupdate -i "$PROD" --verbose
     rm /tmp/.com.apple.dt.CommandLineTools.installondemand.in-progress
 
   # on 10.7/10.8, we instead download from public download URLs, which can be found in
@@ -132,7 +140,9 @@ function install_clt {
     [ "$OSX_VERS" -eq 8 ] && DMGURL=http://devimages.apple.com.edgekey.net/downloads/xcode/command_line_tools_for_osx_mountain_lion_april_2014.dmg
 
     TOOLS=clitools.dmg
+    output_running "Downloading '$DMGURL'"
     curl "$DMGURL" -o "$TOOLS"
+    output_running "Installing '$TOOLS'"
     TMPMOUNT=`/usr/bin/mktemp -d /tmp/clitools.XXXX`
     hdiutil attach "$TOOLS" -mountpoint "$TMPMOUNT"
     installer $ALLOW_UNTRUSTED -pkg "$(find $TMPMOUNT -name '*.mpkg')" -target /
@@ -148,6 +158,10 @@ function install_clt {
   fi
 }
 
+###################################################################################
+# Install: pip (via easy_install)                                                 #
+###################################################################################
+
 function install_pip {
   output_header "Installing pip"
   if ! exists pip; then
@@ -161,6 +175,10 @@ function install_pip {
     output_skip "pip already installed."
   fi
 }
+
+###################################################################################
+# Install: ansible (via pip)                                                      #
+###################################################################################
 
 function install_ansible {
   output_header "Installing Ansible"
@@ -176,7 +194,15 @@ function install_ansible {
   fi
 }
 
+###################################################################################
+# Show banner                                                                     #
+###################################################################################
+
 banner
+
+###################################################################################
+# Check cli options (not yet implemented)                                         #
+###################################################################################
 
 while getopts "$OPTS" OPTION
 do
@@ -204,23 +230,46 @@ if [ "$VERBOSE" = 1 ] ; then
   output_debug "Detected verbose (-v) flag."
 fi
 
+###################################################################################
+# Check privilege escalation                                                      #
+###################################################################################
+
 output_debug "Checking if we need to ask for a sudo password"
 sudo -v
 output_debug "Keep-alive: update existing sudo time stamp until we are finished"
 while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
+
+###################################################################################
+# Install neccessary toolchain                                                    #
+###################################################################################
+
 install_clt
 install_pip
 install_ansible
-$(which ansible-galaxy) install -f -r requirements.yml -p roles
-$(which ansible-playbook) -i "inventory" bootstrap.yml --connection=local --extra-vars='cli_path: [ $1 ]'
 
-###############################################################################
-# Kill all affected applications                                              #
-###############################################################################
+###################################################################################
+# Bootstrap                                                                       #
+###################################################################################
 
+output_header "Bootstrapping via ansible"
+output_running "Installing requirements..."
+$(which ansible-galaxy) install -r requirements.yml -p roles
+output_running "Bootstrapping..."
+output_running "Using config from: '$1'"
+$(which ansible-playbook) -i "inventory" bootstrap.yml --connection=local --extra-vars cli_path=$1
+
+###################################################################################
+# Kill all affected applications                                                  #
+###################################################################################
+
+output_header "Kill all affected applications..."
 for app in "Activity Monitor" "Address Book" "Calendar" "Contacts" "cfprefsd" \
   "Dock" "Finder" "Mail" "Messages" "Safari" "SizeUp" "SystemUIServer" \
-  "Terminal" "Transmission" "Twitter" "iCal"; do
+  "Transmission" "Twitter" "iCal"; do
+  output_running "$app"
   killall "${app}" > /dev/null 2>&1
 done
-echo "Done. Note that some of these changes require a logout/restart to take effect."
+
+###################################################################################
+
+output_success "Done. Note that some of these changes require a logout/restart to take effect."

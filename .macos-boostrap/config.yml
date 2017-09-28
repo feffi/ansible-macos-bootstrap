@@ -497,7 +497,6 @@ macos_dotfiles: {
         { file: ".screenrc" },
         { file: ".wgetrc" },
         { file: ".zshrc" },
-        { file: "workspace" }
         #{ file: "test-dir", force: yes, owner: root, group: admin, mode: "0777" }
       ]
     }
@@ -915,7 +914,7 @@ macos_homebrew: {
 #}
 
 # Ansible role to manage git repositories.
-git_repos: {
+macos_git_repos: {
   # Containment directory for pulled git repositories
   containment: "{{ ansible_env.HOME + '/workspace' }}",
   # Git repositories to pull
