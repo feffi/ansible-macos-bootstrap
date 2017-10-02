@@ -10,10 +10,6 @@
     macos_include_vars: {
       paths: "{{ cli_path | default( inventory_dir + '/.macos-boostrap' ) }}"
     }
-  tasks:
-    - debug:
-        var: cli_path
-
   roles:
     - { role: feffi.macos-include-vars }
     - { role: feffi.debug }
