@@ -8,7 +8,7 @@
     #DEBUG: true
     # Include custom vars from defined locations
     macos_include_vars: {
-      paths: "{{ cli_path | default( inventory_dir + '/.macos-boostrap' ) }}"
+      paths: "{{ cli_path | default( inventory_dir + '/.macos-bootstrap' ) }}"
     }
   roles:
     - { role: feffi.macos-include-vars }

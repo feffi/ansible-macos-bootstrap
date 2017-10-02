@@ -56,7 +56,7 @@ printf "${GREEN}| \'_ \` _ \ / _\` |/ __| |  | |\___ \  | '_ \ / _ \ / _ \| __/ 
 printf "${GREEN}| | | | | | (_| | (__| |__| |____) | | |_) | (_) | (_) | |_\__ \ |_| | | (_| | |_) |${COLOR_OFF}\n"
 printf "${GREEN}|_| |_| |_|\__,_|\___|\____/|_____/  |_.__/ \___/ \___/ \__|___/\__|_|  \__,_| .__/ ${COLOR_OFF}\n"
 printf "${GREEN}                                                                             | |    ${COLOR_OFF}\n"
-printf "${GREEN}                                            https://feffi.org/macos-boostrap |_|    ${COLOR_OFF}\n\n"
+printf "${GREEN}                                           https://feffi.org/macos-bootstrap |_|    ${COLOR_OFF}\n\n"
 printf "${DARK_GRAY}Thanks:                                                                         ${COLOR_OFF}\n"
 printf "${BLUE}http://superlumic.com                           https://github.com/boxcutter/osx     ${COLOR_OFF}\n"
 printf "${BLUE}https://github.com/jeremyltn                    http://patorjk.com/software/taag     ${COLOR_OFF}\n"
