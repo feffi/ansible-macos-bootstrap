@@ -5,7 +5,7 @@
   #become: true
   gather_facts: true
   vars:
-    #DEBUG: true
+    DEBUG: true
   roles:
     - { role: feffi.macos-include-vars,
         # Include custom vars from defined locations
