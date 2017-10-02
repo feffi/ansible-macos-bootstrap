@@ -14,7 +14,7 @@
         }
       }
     - { role: feffi.debug }
-    #- { role: feffi.ssh-config }
+    - { role: feffi.ssh-config }
     - { role: feffi.git-config }
     - { role: feffi.macos-dotfiles }
     - { role: feffi.macos-homebrew }

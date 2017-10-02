@@ -267,7 +267,7 @@ macos_standby: {
 }
 
 # Ansible role to configure the global gitconfig and .gitignore.
-gitconfig: {
+git_config: {
   # Sections and key-value pairs to include in the users .gitconfig
   config: {
     user: {
