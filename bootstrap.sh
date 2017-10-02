@@ -251,6 +251,8 @@ install_ansible
 # Bootstrap                                                                       #
 ###################################################################################
 
+sudo -k
+
 output_header "Bootstrapping via ansible"
 output_running "Installing requirements..."
 $(which ansible-galaxy) install -r requirements.yml -p roles

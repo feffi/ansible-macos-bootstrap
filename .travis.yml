@@ -12,4 +12,4 @@ osx_image: xcode9
     #- "{ echo 'secret_param: true'; echo 'username: \"foo\"'; } >> /tmp/.macos-bootstrap/secrets.yml"
     #- ansible-galaxy install -f -r tests/requirements.yml -p /tmp/roles
 script:
-  - "sudo ./bootstrap.sh"
+  - "./bootstrap.sh"

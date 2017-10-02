@@ -2,7 +2,7 @@
 #./bootstrap.sh /Users/feffi/Desktop/.macos-bootstrap
 - hosts: 127.0.0.1
   connection: local
-  become: "{{ ansible_user_id }}"
+  #become: true
   gather_facts: true
   vars:
     #DEBUG: true
