@@ -6,12 +6,13 @@
   gather_facts: true
   vars:
     #DEBUG: true
-    # Include custom vars from defined locations
-    macos_include_vars: {
-      paths: "{{ cli_path | default( inventory_dir + '/.macos-bootstrap' ) }}"
-    }
   roles:
-    - { role: feffi.macos-include-vars }
+    - { role: feffi.macos-include-vars,
+        # Include custom vars from defined locations
+        macos_include_vars: {
+          paths: "{{ cli_path | default( inventory_dir + '/.macos-bootstrap' ) }}"
+        }
+      }
     - { role: feffi.debug }
     #- { role: feffi.ssh-config }
     - { role: feffi.git-config }
