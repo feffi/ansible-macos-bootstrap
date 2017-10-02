@@ -234,10 +234,10 @@ fi
 # Check privilege escalation                                                      #
 ###################################################################################
 
-output_debug "Checking if we need to ask for a sudo password"
-sudo -v
-output_debug "Keep-alive: update existing sudo time stamp until we are finished"
-while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
+#output_debug "Checking if we need to ask for a sudo password"
+#sudo -v
+#output_debug "Keep-alive: update existing sudo time stamp until we are finished"
+#while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
 
 ###################################################################################
 # Install neccessary toolchain                                                    #
@@ -251,7 +251,7 @@ install_ansible
 # Bootstrap                                                                       #
 ###################################################################################
 
-sudo -k
+#sudo -k
 
 output_header "Bootstrapping via ansible"
 output_running "Installing requirements..."
