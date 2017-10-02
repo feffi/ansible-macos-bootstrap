@@ -17,6 +17,7 @@
 # Missing/todo roles:                                                                     #
 #  - Enable passwordless sudo for user in append_sudoers_user                             #
 #  - ssh config generator                                                                 #
+#  - test locally: --extra-vars='cli_paths: "/Users/feffi/.macos-bootstrap"'              #
 #                                                                                         #
 ###########################################################################################
 
@@ -126,48 +127,58 @@ macos_finder: {
 
 # Ansible role to manage the macOS dock.
 macos_dock: {
+  # Full reset/remove all Applications from Dock
+  reset: false,
   # Applications to add/remove to/from the Dock
   applications: {
     add: [
-      { name: "Finder", path: "/Applications/Finder.app", pos: 1 },
-      { name: "Contacts", path: "/Applications/Contacts.app", pos: 2 },
-      { name: "Calendar", path: "/Applications/Calendar.app", pos: 3 },
-      { name: "Safari", path: "/Applications/Safari.app", pos: 4 },
-      { name: "Google Chrome", path: "/Applications/Google Chrome.app", pos: 5 },
-      { name: "Mail", path: "/Applications/Mail.app", pos: 6 },
-      { name: "iTunes", path: "/Applications/iTunes.app", pos: 7 },
-      { name: "iBooks", path: "/Applications/iBooks.app", pos: 8 },
-      { name: "App Store", path: "/Applications/App Store.app", pos: 9 },
-      { name: "System Preferences", path: "/Applications/System Preferences.app", pos: 10 },
-      { name: "Photos", path: "/Applications/Photos.app", pos: 11 },
-      { name: "iTerm", path: "/Applications/iTerm.app", pos: 12 },
-      { name: "Sublime Text", path: "/Applications/Sublime Text.app", pos: 13 },
-      { name: "VMware Fusion", path: "/Applications/VMware Fusion.app", pos: 14 }
+      { label: "Kontakte", path: "/Applications/Contacts.app", pos: 1 },
+      { label: "Kalender", path: "/Applications/Calendar.app", pos: 2 },
+      { label: "Safari", path: "/Applications/Safari.app", pos: 3 },
+      { label: "Google Chrome", path: "/Applications/Google Chrome.app", pos: 4 },
+      { label: "Mail", path: "/Applications/Mail.app", pos: 5 },
+      { label: "iTunes", path: "/Applications/iTunes.app", pos: 6 },
+      { label: "iBooks", path: "/Applications/iBooks.app", pos: 7 },
+      { label: "App Store", path: "/Applications/App Store.app", pos: 8 },
+      { label: "Systemeinstellungen", path: "/Applications/System Preferences.app", pos: 9 },
+      { label: "Fotos", path: "/Applications/Photos.app", pos: 10 },
+      { label: "iTerm", path: "/Applications/iTerm.app", pos: 11 },
+      { label: "Sublime Text", path: "/Applications/Sublime Text.app", pos: 12 },
+      { label: "VMware Fusion", path: "/Applications/VMware Fusion.app", pos: 13 }
     ],
     remove: [
-      "FaceTime",
-      "LaunchPad",
-      "Maps",
-      "Messages",
-      "Notes",
-      "Reminders",
-      "Siri"
+#      "Calendar",
+#      "Contacts",
+#      "Erinnerungen",
+#      "FaceTime",
+#      "Photos",
+#      "Karten",
+#      "LaunchPad",
+#      "Launchpad",
+#      "Maps",
+#      "Messages",
+#      "Nachrichten",
+#      "Notes",
+#      "Notizen",
+#      "Reminders",
+#      "Siri",
+#      "System Preferences"
     ]
   },
   # Folder to add/remove to/from the Dock
   folder: {
     add: [
-      { path: "~/Documents", view: "grid", display: "folder" },
-      { path: "~/Music", view: "list", display: "stack" }
+      { label: "Documents", path: "~/Documents", view: "grid", display: "folder", pos: 1 },
+      { label: "Music", path: "~/Music", view: "list", display: "stack", pos: 2 }
     ],
     remove: [
-      "~/Downloads"
+#      "~/Downloads"
     ]
   },
   # URLs to add/remove to/from the Dock
   url: {
     add: [
-      { url: "vnc://server.local", label: "Server VNC" }
+      { label: "Mini VNC", url: "vnc://miniserver.local" }
     ],
     remove: [
       "https://google.com"
@@ -211,8 +222,6 @@ macos_dock: {
 macos_standby: {
   # Set standby delay in seconds, default = 3600, 24 hours = 86400, disabled = false
   standby_delay: 86400,
-  # Never go into computer sleep mode
-  sleep_delay: "Never",
   # Set hibernate mode:
   # hibernatemode = 0 (binary 0000) by default on supported desktops. The system will not back memory up to
   #   persistent storage. The system must wake from the contents of memory; the system will lose context on
@@ -226,7 +235,7 @@ macos_standby: {
   #   ory to persistent storage (the disk), and will remove power to memory. The system will restore from
   #   disk image. If you want "hibernation" - slower sleeps, slower wakes, and better battery life, you
   #   should use this setting.
-  hibernate_mode: 0,
+  hibernate_mode: 3,
   # Remove the sleep image file to save disk space
   remove_sleepimage: false,
   # Automatically illuminate built-in MacBook keyboard in low light
@@ -241,8 +250,25 @@ macos_standby: {
   sleep_computer: "Never",
   # Set harddisk sleep time delay in minutes
   sleep_harddisk: "Never",
-  # Set wake on network acess to either <on> or <off>
-  wake_on_lan: true
+  # Set wake on network access to either <on> or <off>
+  wake_on_lan: true,
+  # Sleep on pressing the power button, direct sleep = true, show dialog = false
+  powerbutton_sleep: false,
+  # Set usage of PowerNap
+  powernap: true,
+  # wake the machine when the laptop lid (or clamshell) is opened
+  lidwake: true,
+  # wake the machine when power source (AC/battery) is changed
+  acwake: false,
+  # display sleep will use an intermediate half-brightness state between full brightness and fully off
+  halfdim: true,
+  # prevent idle system sleep when any tty (e.g. remote login session) is 'active'. A tty is 'inactive'
+  # only when its idle time exceeds the system sleep timer.
+  ttyskeepawake: true,
+  # Destroy File Vault Key when going to standby mode. By default File vault keys are retained even
+  # when system goes to standby. If the keys are destroyed, user will be prompted to enter the
+  # password while coming out of standby mode.
+  destroyfvkeyonstandby: false
 }
 
 # Ansible role to configure the global gitconfig and .gitignore.
@@ -471,7 +497,7 @@ macos_sublime: {
 # Ansible role to manage personal dotfiles.
 macos_dotfiles: {
   # Containment directory for pulled git repositories
-  containment: "{{ ansible_env.HOME + '/dotfiles' }}",
+  containment: "~/workspace",
   # Git repositories to pull
   repositories: [
     { # Target name of the repository
@@ -489,7 +515,6 @@ macos_dotfiles: {
         { file: ".curlrc" },
         { file: ".exports" },
         { file: ".gemrc" },
-        { file: ".git" },
         { file: ".gitattributes" },
         { file: ".gitignore" },
         { file: ".htoprc" },
@@ -506,7 +531,7 @@ macos_dotfiles: {
 # Ansible role to set macOS "defaults" settings.
 macos_defaults: {
   defaults: [
-    { domain: "/.Spotlight-V100/VolumeConfiguration", key: "Exclusions", type: "array", value: [ "/Volumes" ], description: "Disable Spotlight indexing for any volume that gets mounted and has not yet been indexed before." },
+    { domain: "/.Spotlight-V100/VolumeConfiguration", key: "Exclusions", type: "array", value: [ "/Volumes" ], description: "Disable Spotlight indexing for any volume that gets mounted and has not yet been indexed before.", global: true },
     { domain: "com.apple.ActivityMonitor", key: "DiskGraphType", type: "integer", value: "1", description: "Show Data in the Disk graph (instead of IO)" },
     { domain: "com.apple.ActivityMonitor", key: "IconType", type: "integer", value: "5", description: "Visualize CPU usage in the Activity Monitor Dock icon" },
     { domain: "com.apple.ActivityMonitor", key: "NetworkGraphType", type: "integer", value: "1", description: "Show Data in the Network graph (instead of packets)" },
@@ -536,18 +561,18 @@ macos_defaults: {
     { domain: "com.apple.dt.Xcode", key: "AlwaysShowTabBar", type: "boolean", value: "true", description: "Show tab bar" },
     { domain: "com.apple.dt.Xcode", key: "DVTTextIndentUsingTabs", type: "boolean", value: "false", description: "Always use spaces for indenting" },
     { domain: "com.apple.finder", key: "DesktopViewSettings:IconViewSettings:arrangeBy", type: "string", value: "grid", description: "Enable snap-to-grid for icons on the desktop" },
-    { domain: "com.apple.finder", key: "DesktopViewSettings:IconViewSettings:gridSpacing", type: "integer", value: 100, description: "Increase grid spacing for icons on the desktop" },
-    { domain: "com.apple.finder", key: "DesktopViewSettings:IconViewSettings:iconSize", type: "integer", value: 80, description: "Increase the size of icons on the desktop" },
+    { domain: "com.apple.finder", key: "DesktopViewSettings:IconViewSettings:gridSpacing", type: "float", value: 100, description: "Increase grid spacing for icons on the desktop" },
+    { domain: "com.apple.finder", key: "DesktopViewSettings:IconViewSettings:iconSize", type: "float", value: 80, description: "Increase the size of icons on the desktop" },
     { domain: "com.apple.finder", key: "DesktopViewSettings:IconViewSettings:labelOnBottom", type: "boolean", value: true, description: "Icon label position: true = bottom, false = right" },
     { domain: "com.apple.finder", key: "DesktopViewSettings:IconViewSettings:showItemInfo", type: "boolean", value: true, description: "Show item info near icons on the desktop" },
     { domain: "com.apple.finder", key: "FK_StandardViewSettings:IconViewSettings:arrangeBy", type: "string", value: "grid", description: "Enable snap-to-grid for icons in finder icon views" },
-    { domain: "com.apple.finder", key: "FK_StandardViewSettings:IconViewSettings:gridSpacing", type: "integer", value: 100, description: "Increase grid spacing for icons in finder icon views" },
-    { domain: "com.apple.finder", key: "FK_StandardViewSettings:IconViewSettings:iconSize", type: "integer", value: 80, description: "Increase the size of icons in finder icon views" },
+    { domain: "com.apple.finder", key: "FK_StandardViewSettings:IconViewSettings:gridSpacing", type: "float", value: 100, description: "Increase grid spacing for icons in finder icon views" },
+    { domain: "com.apple.finder", key: "FK_StandardViewSettings:IconViewSettings:iconSize", type: "float", value: 80, description: "Increase the size of icons in finder icon views" },
     { domain: "com.apple.finder", key: "FK_StandardViewSettings:IconViewSettings:showItemInfo", type: "boolean", value: true, description: "Show item info near icons in finder icon view" },
     { domain: "com.apple.finder", key: "FXInfoPanesExpanded", type: "dict", value: { Privileges: true, MetaData: true, Comments: true, OpenWith: true, Preview: false, Name: true, General: true }, description: "Expand the following File Info panes: 'General', 'Open with', and 'Sharing & Permissions'" },
     { domain: "com.apple.finder", key: "StandardViewSettings:IconViewSettings:arrangeBy", type: "string", value: "grid", description: "Enable snap-to-grid for icons in other icon views" },
-    { domain: "com.apple.finder", key: "StandardViewSettings:IconViewSettings:gridSpacing", type: "integer", value: 100, description: "Increase grid spacing for icons in other icon views" },
-    { domain: "com.apple.finder", key: "StandardViewSettings:IconViewSettings:iconSize", type: "integer", value: 80, description: "Increase the size of icons in other icon views" },
+    { domain: "com.apple.finder", key: "StandardViewSettings:IconViewSettings:gridSpacing", type: "float", value: 100, description: "Increase grid spacing for icons in other icon views" },
+    { domain: "com.apple.finder", key: "StandardViewSettings:IconViewSettings:iconSize", type: "float", value: 80, description: "Increase the size of icons in other icon views" },
     { domain: "com.apple.finder", key: "StandardViewSettings:IconViewSettings:showItemInfo", type: "boolean", value: true, description: "Show item info near icons other icon views" },
     { domain: "com.apple.frameworks.diskimages", key: "skip-verify", type: "boolean", value: "true", description: "Don't verify disk images" },
     { domain: "com.apple.frameworks.diskimages", key: "skip-verify-locked", type: "boolean", value: "true", description: "Don't verify locked disk images" },
@@ -581,10 +606,10 @@ macos_defaults: {
     { domain: "com.apple.Safari", key: "com.apple.Safari.ContentPageGroupIdentifier.WebKit2JavaScriptEnabled", type: "boolean", value: "true", description: "Enable JavaScript" },
     { domain: "com.apple.Safari", key: "com.apple.Safari.ContentPageGroupIdentifier.WebKit2PluginsEnabled", type: "boolean", value: "true", description: "Enable plug-ins" },
     { domain: "com.apple.Safari", key: "com.apple.Safari.ContentPageGroupIdentifier.WebKit2TabsToLinks", type: "boolean", value: "true", description: "Press Tab to highlight each item on a web page" },
-    { domain: "com.apple.Safari", key: "com.apple.Safari.ReadingListFetcher.WebKit2JavaScriptEnabled", type: "boolean", value: "false", description: "Reading list" },
-    { domain: "com.apple.Safari", key: "com.apple.Safari.ReadingListFetcher.WebKit2LoadsImagesAutomatically", type: "boolean", value: "false", description: "Reading list" },
-    { domain: "com.apple.Safari", key: "com.apple.Safari.ReadingListFetcher.WebKit2LoadsSiteIconsIgnoringImageLoadingPreference", type: "boolean", value: "true", description: "Reading list" },
-    { domain: "com.apple.Safari", key: "com.apple.Safari.ReadingListFetcher.WebKit2PluginsEnabled", type: "boolean", value: "false", description: "Reading list" },
+    { domain: "com.apple.Safari", key: "com.apple.Safari.ReadingListFetcher.WebKit2JavaScriptEnabled", type: "boolean", value: "false", description: "Reading list enabled javascript" },
+    { domain: "com.apple.Safari", key: "com.apple.Safari.ReadingListFetcher.WebKit2LoadsImagesAutomatically", type: "boolean", value: "false", description: "Reading list load images automatically" },
+    { domain: "com.apple.Safari", key: "com.apple.Safari.ReadingListFetcher.WebKit2LoadsSiteIconsIgnoringImageLoadingPreference", type: "boolean", value: "true", description: "Reading list load site icons" },
+    { domain: "com.apple.Safari", key: "com.apple.Safari.ReadingListFetcher.WebKit2PluginsEnabled", type: "boolean", value: "false", description: "Reading list enabled plugins" },
     { domain: "com.apple.Safari", key: "CommandClickMakesTabs", type: "boolean", value: "true", description: "Command-clicking a link creates tabs" },
     { domain: "com.apple.Safari", key: "DebugSnapshotsUpdatePolicy", type: "integer", value: "2", description: "Disable Safari’s thumbnail cache for History and Top Sites" },
     { domain: "com.apple.Safari", key: "FindOnPageMatchesWordStartsOnly", type: "boolean", value: "false", description: "Make Safari’s search banners default to Contains instead of Starts With" },
@@ -612,7 +637,7 @@ macos_defaults: {
     { domain: "com.apple.Safari", key: "WebKitPluginsEnabled", type: "boolean", value: "true", description: "Enable plug-ins" },
     { domain: "com.apple.Safari", key: "WebKitTabToLinksPreferenceKey", type: "boolean", value: "true", description: "Press Tab to highlight each item on a web page" },
     { domain: "com.apple.spotlight", key: "orderedItems", type: "array", value: [ '{"enabled" = 1;"name" = "APPLICATIONS";}', '{"enabled" = 1;"name" = "SYSTEM_PREFS";}', '{"enabled" = 1;"name" = "DIRECTORIES";}', '{"enabled" = 1;"name" = "MOVIES";}', '{"enabled" = 0;"name" = "PDF";}', '{"enabled" = 0;"name" = "FONTS";}', '{"enabled" = 0;"name" = "DOCUMENTS";}', '{"enabled" = 0;"name" = "MESSAGES";}', '{"enabled" = 0;"name" = "CONTACT";}', '{"enabled" = 0;"name" = "EVENT_TODO";}', '{"enabled" = 0;"name" = "IMAGES";}', '{"enabled" = 0;"name" = "BOOKMARKS";}', '{"enabled" = 0;"name" = "MUSIC";}', '{"enabled" = 0;"name" = "PRESENTATIONS";}', '{"enabled" = 0;"name" = "SPREADSHEETS";}', '{"enabled" = 0;"name" = "SOURCE";}' ], description: "Change indexing order and disable some file types" },
-    { domain: "com.apple.systemuiserver", key: "menuExtras", type: "array", value: [ "/System/Library/CoreServices/Menu Extras/Bluetooth.menu", "/System/Library/CoreServices/Menu Extras/AirPort.menu", "/System/Library/CoreServices/Menu Extras/Battery.menu", "/System/Library/CoreServices/Menu Extras/Clock.menu" ], description: "Menu bar: hide the useless Time Machine and Volume icons" },
+    { domain: "com.apple.systemuiserver", key: "menuExtras", type: "array", value: [ "/System/Library/CoreServices/Menu Extras/Bluetooth.menu", "/System/Library/CoreServices/Menu Extras/AirPort.menu", "/System/Library/CoreServices/Menu Extras/Battery.menu", "/System/Library/CoreServices/Menu Extras/Clock.menu" ], description: "Menu bar: hide the useless Time Machine and Volume icons", global: true },
     { domain: "com.apple.terminal", key: "Default Window Settings", type: "string", value: "Pro", description: "Set the 'Basic Improved' as the default" },
     { domain: "com.apple.terminal", key: "Startup Window Settings", type: "string", value: "Pro", description: "Set the 'Basic Improved' as the default" },
     { domain: "com.apple.terminal", key: "StringEncodings", type: "array", value: [ "4" ], description: "Only use UTF-8 in Terminal.app" },
@@ -624,7 +649,6 @@ macos_defaults: {
     { domain: "com.google.Chrome", key: "DisablePrintPreview", type: "boolean", value: "true", description: "Use the system-native print preview dialog in google-chrome" },
     { domain: "com.google.Chrome.canary", key: "AppleEnableSwipeNavigateWithScrolls", type: "boolean", value: "false", description: "Disable the all too sensitive backswipe on trackpads in google-chrome-carnary" },
     { domain: "com.google.Chrome.canary", key: "DisablePrintPreview", type: "boolean", value: "true", description: "Use the system-native print preview dialog in google-chrome-carnary" },
-    { domain: "com.googlecode.iterm2", key: "PromptOnQuit", type: "boolean", value: "false", description: "Don’t display the annoying prompt when quitting iTerm" },
     { domain: "com.vmware.fusion", key: "showStartMenu3", type: "integer", value: "0", description: "VMware Fusion: Applications menu: Show in Menu Bar: Never" },
     { domain: "NSGlobalDomain", key: "ApplePressAndHoldEnabled", type: "boolean", value: "false", description: "Enable key repeat" },
     { domain: "NSGlobalDomain", key: "com.apple.mouse.tapBehavior", type: "integer", value: "1", description: "Trackpad: enable tap to click for this user and for the login screen" },
@@ -644,7 +668,9 @@ macos_defaults: {
     { domain: "NSGlobalDomain", key: "PMPrintingExpandedStateForPrint2", type: "boolean", value: "true", description: "Expand Print Panel by Default (App)" },
     { domain: "NSGlobalDomain", key: "WebKitDeveloperExtras", type: "boolean", value: "true", description: "Add a context menu item for showing the web inspector to web views" },
     { domain: "om.google.Chrome", key: "ExtensionInstallSources", type: "array", value: [ "https://gist.githubusercontent.com/", "http://userscripts.org/*" ], description: "Allow installing user scripts via GitHub Gist or Userscripts.org in google-chrome" },
-    { domain: "om.google.Chrome.canary", key: "ExtensionInstallSources", type: "array", value: [ "https://gist.githubusercontent.com/", "http://userscripts.org/*" ], description: "Allow installing user scripts via GitHub Gist or Userscripts.org in google-chrome-carnary" }
+    { domain: "om.google.Chrome.canary", key: "ExtensionInstallSources", type: "array", value: [ "https://gist.githubusercontent.com/", "http://userscripts.org/*" ], description: "Allow installing user scripts via GitHub Gist or Userscripts.org in google-chrome-carnary" },
+    { domain: "com.googlecode.iterm2", key: "PromptOnQuit", type: "boolean", value: "false", description: "Don’t display the annoying prompt when quitting iTerm" },
+    { domain: "com.googlecode.iterm2", key: "PrefsCustomFolder", type: "string", value: "/Users/feffi/Documents/workspace/dotfiles", description: "Default path for iTerm2 preferences" }
   ]
 }
 
@@ -692,7 +718,6 @@ macos_homebrew: {
     { name: "coreutils" },
     { name: "crunch" },
     { name: "curl" },
-    { name: "cuty_capt" },
     { name: "dc3dd" },
     { name: "ddrescue" },
     { name: "dns2tcp" },
@@ -719,10 +744,8 @@ macos_homebrew: {
     { name: "gnupg" },
     { name: "gnutls" },
     { name: "go" },
-    { name: "gptfdisk" },
     { name: "graphviz" },
     { name: "grep" },
-    { name: "hammerspoon" },
     { name: "handbrake" },
     { name: "haproxy" },
     { name: "hashcat" },
@@ -736,7 +759,6 @@ macos_homebrew: {
     { name: "hydra" },
     { name: "hyper" },
     { name: "iftop" },
-    { name: "iodine" },
     { name: "iperf" },
     { name: "iperf3" },
     { name: "iproute2mac" },
@@ -753,7 +775,6 @@ macos_homebrew: {
     { name: "lsof" },
     { name: "lynis" },
     { name: "masscan" },
-    { name: "maven" },
     { name: "mdf2iso" },
     { name: "mitmproxy" },
     { name: "mobile-shell" },
@@ -780,7 +801,6 @@ macos_homebrew: {
     { name: "pwnat" },
     { name: "rancher-cli" },
     { name: "rancher-compose" },
-    { name: "scapy" },
     { name: "screen" },
     { name: "sfnt2woff" },
     { name: "sfnt2woff-zopfli" },
@@ -788,7 +808,6 @@ macos_homebrew: {
     { name: "sipp" },
     { name: "skipfish" },
     { name: "spoof-mac" },
-    { name: "sqlbrute" },
     { name: "sqlmap" },
     { name: "ssldump" },
     { name: "sslh" },
@@ -809,13 +828,11 @@ macos_homebrew: {
     { name: "truecrack" },
     { name: "ucspi-tcp" },
     { name: "udptunnel" },
-    { name: "vtop" },
     { name: "watch" },
     { name: "watchman" },
     { name: "wireshark" },
     { name: "woff2" },
     { name: "xhyve" },
-    { name: "zerotrace" },
     { name: "zsh" },
     { name: "zsh-autosuggestions" }
   ],
@@ -823,21 +840,23 @@ macos_homebrew: {
   casks: [
     { name: "1password" },
     { name: "armitage" },
-    { name: "audacity" },
     { name: "betterzip" },
     { name: "betterzipql" },
-    { name: "bittorrent-sync" },
+    { name: "resilio-sync" },
     { name: "burn" },
     { name: "clamxav" },
-    { name: "cocoapacketanalyze" },
+    { name: "cocoapacketanalyzer" },
     { name: "coconutbattery" },
-    { name: "coconutbattery" },
-    { name: "controlplane" },
     { name: "controlplane" },
     { name: "cyberduck" },
     { name: "dropbox" },
     { name: "filezilla" },
     { name: "firefox" },
+    { name: "font-inconsolata" },
+    { name: "font-source-code-pro-for-powerline" },
+    { name: "font-source-code-pro" },
+    { name: "font-roboto" },
+    { name: "font-open-sans" },
     { name: "franz" },
     { name: "gephi" },
     { name: "gfxcardstatus" },
@@ -847,37 +866,28 @@ macos_homebrew: {
     { name: "grandperspective" },
     { name: "growlnotify" },
     { name: "handbrake" },
-    { name: "handbrake" },
-    { name: "handbrakecli" },
+    { name: "hammerspoon" },
     { name: "istat-menus" },
     { name: "iterm2" },
     { name: "jdownloader" },
     { name: "keepassx" },
     { name: "keka" },
-    { name: "keka" },
-    { name: "launchcontrol" },
     { name: "launchcontrol" },
     { name: "little-snitch" },
     { name: "macpass" },
     { name: "maltego" },
     { name: "marp" },
     { name: "nvalt" },
-    { name: "nvalt" },
     { name: "openoffice" },
     { name: "qlcolorcode" },
-    { name: "qlcolorcode" },
     { name: "qlimagesize" },
-    { name: "qlmarkdown" },
     { name: "qlmarkdown" },
     { name: "qlprettypatch" },
     { name: "qlrest" },
     { name: "qlstephen" },
-    { name: "qlstephen" },
     { name: "qlvideo" },
     { name: "quicklook-csv" },
     { name: "quicklook-json" },
-    { name: "quicklook-json" },
-    { name: "skim" },
     { name: "sofortbild" },
     { name: "steam" },
     { name: "suspicious-package" },
@@ -885,11 +895,8 @@ macos_homebrew: {
     { name: "tftpserver" },
     { name: "the-unarchiver" },
     { name: "tinyumbrella" },
-    { name: "tinyumbrella" },
-    { name: "tinyumbrella" },
     { name: "vagrant" },
     { name: "virtualbox-beta" },
-    { name: "vlc" },
     { name: "vlc-nightly" },
     { name: "wakeonlan" },
     { name: "webpquicklook" },
@@ -897,7 +904,7 @@ macos_homebrew: {
   ],
   # Brewfile paths to process
   brews: [
-    "{{ ansible_env.HOME + '/workspace' }}/dotfiles/Brewfile"
+    #"/Users/feffi/workspace/dotfiles/Brewfile"
   ]
 }
 
@@ -916,9 +923,10 @@ macos_homebrew: {
 # Ansible role to manage git repositories.
 macos_git_repos: {
   # Containment directory for pulled git repositories
-  containment: "{{ ansible_env.HOME + '/workspace' }}",
+  containment: "~/workspace",
   # Git repositories to pull
   repositories: [
+    #{ name: "dotfiles", url: "https://github.com/feffi/dotfiles.git" },
     { name: "ansible-git-config", url: "https://github.com/feffi/ansible-git-config.git" },
     { name: "ansible-git-repos", url: "https://github.com/feffi/ansible-git-repos.git" },
     { name: "ansible-macos-dock", url: "https://github.com/feffi/ansible-macos-dock.git" },
@@ -938,7 +946,26 @@ macos_git_repos: {
     { name: "ansible-macos-avatar", url: "https://github.com/feffi/ansible-macos-avatar.git" },
     { name: "ansible-macos-ssd", url: "https://github.com/feffi/ansible-macos-ssd.git" },
     { name: "ansible-macos-computername", url: "https://github.com/feffi/ansible-macos-computername.git" },
-    { name: "ansible-macos-bootstrap", url: "https://github.com/feffi/ansible-macos-bootstrap.git" }
+    { name: "ansible-macos-bootstrap", url: "https://github.com/feffi/ansible-macos-bootstrap.git" },
+    { name: "docker-nexus-iq-server", url: "https://github.com/feffi/docker-nexus-iq-server.git" },
+    { name: "docker-netdata-autoscale", url: "https://github.com/feffi/docker-netdata-autoscale.git" },
+    { name: "vagrant-rancher-ci", url: "https://github.com/feffi/vagrant-rancher-ci.git" },
+    { name: "jNumber", url: "https://github.com/feffi/jNumber.git" },
+    { name: "docker-sonarqube", url: "https://github.com/feffi/docker-sonarqube.git" },
+    { name: "docker-selenium-grid", url: "https://github.com/feffi/docker-selenium-grid.git" },
+    { name: "monit", url: "https://github.com/feffi/monit.git" },
+    { name: "latex-docker", url: "https://github.com/feffi/latex-docker.git" },
+    { name: "homebridge-docker", url: "https://github.com/feffi/homebridge-docker.git" },
+    { name: "all-seeing-eye", url: "https://github.com/feffi/all-seeing-eye.git" },
+    { name: "jetbrains-license-server", url: "https://github.com/feffi/jetbrains-license-server.git" },
+    { name: "docker-elk", url: "https://github.com/feffi/docker-elk.git" },
+    { name: "homebridge", url: "https://github.com/feffi/homebridge.git" },
+    { name: "homebrew-penbrew", url: "https://github.com/feffi/homebrew-penbrew.git" },
+    { name: "docker-selenium", url: "https://github.com/feffi/docker-selenium.git" },
+    { name: "spring-data-mock", url: "https://github.com/feffi/spring-data-mock.git" },
+    { name: "wifiphisher", url: "https://github.com/feffi/wifiphisher.git" },
+    { name: "vlan-hopping---frogger", url: "https://github.com/feffi/vlan-hopping---frogger.git" },
+    { name: "wifite", url: "https://github.com/feffi/wifite.git" }
   ]
 }
 
@@ -954,19 +981,19 @@ macos_pip: {
 # Ansible role to manage ssh configs.
 ssh_config: {
   # Destination of the config file
-  destination: "{{ ansible_env.HOME + '/.ssh/config' }}",
+  destination: "~/.ssh/config",
 
   # Sections and key-value pairs to include in the users .gitconfig
   config: [
-    { Host: "localhost local lh", Hostname: "localhost.local", User: "fooo" },
-    { Host: "github.com github", HostName: "github.com", Port: 443, User: "fooo"},
+    { Host: "localhost", HostName: "127.0.0.1", User: "root", Port: 22 },
+    { Host: "github.com github", HostName: "github.com", Port: 443, User: "foooo"},
     { Host: "*",
       Port: 22,
-      User: "fooo",
+      User: "foooo",
       ForwardAgent: "yes",
       ServerAliveInterval: 60,
       ServerAliveCountMax: 10,
-      IdentityFile: "~/.ssh/fooo.ed25519",
+      IdentityFile: "~/.ssh/foooo.ed25519",
       ControlMaster: "auto",
       ControlPath: "~/.ssh/control-%r@%h:%p",
       ControlPersist: "5m",
@@ -995,4 +1022,12 @@ macos_timezone: {
   use_metric_units: true,
   # Set the current measurement units
   measurement_units: "Centimeters"
+}
+
+# Ansible role to manage macOS npm installs.
+macos_npm: {
+  # Packages to install via npm
+  packages: [
+    { name: "vtop", global: true }
+  ]
 }

@@ -10,6 +10,7 @@
 - { src: "https://github.com/feffi/ansible-macos-git-repos.git", name: "feffi.macos-git-repos" }
 - { src: "https://github.com/feffi/ansible-macos-homebrew.git", name: "feffi.macos-homebrew" }
 - { src: "https://github.com/feffi/ansible-macos-include-vars.git", name: "feffi.macos-include-vars" }
+- { src: "https://github.com/feffi/ansible-macos-npm.git", name: "feffi.macos-npm" }
 - { src: "https://github.com/feffi/ansible-macos-ohmyzsh.git", name: "feffi.macos-ohmyzsh" }
 - { src: "https://github.com/feffi/ansible-macos-pip.git", name: "feffi.macos-pip" }
 - { src: "https://github.com/feffi/ansible-macos-settings.git", name: "feffi.macos-settings" }

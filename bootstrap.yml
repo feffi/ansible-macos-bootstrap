@@ -1,6 +1,7 @@
 ---
+#./bootstrap.sh /Users/feffi/Desktop/.macos-bootstrap
 - hosts: 127.0.0.1
-  connection: local
+  #connection: local
   #become: true
   gather_facts: true
   vars:
@@ -17,13 +18,13 @@
     - { role: feffi.macos-include-vars }
     - { role: feffi.debug }
     #- { role: feffi.ssh-config }
+    - { role: feffi.git-config }
+    - { role: feffi.macos-dotfiles }
     - { role: feffi.macos-homebrew }
     - { role: feffi.macos-pip }
     - { role: feffi.macos-softwareupdate }
     - { role: feffi.macos-timemachine }
     - { role: feffi.macos-ohmyzsh }
-    - { role: feffi.git-config }
-    - { role: feffi.macos-dotfiles }
     - { role: feffi.macos-computername }
     - { role: feffi.macos-timezone }
     - { role: feffi.macos-standby }
@@ -35,4 +36,5 @@
     - { role: feffi.macos-avatar }
     - { role: feffi.macos-sublime }
     - { role: feffi.macos-git-repos }
+    - { role: feffi.macos-npm }
     #- { role: feffi.macos-ssd }
