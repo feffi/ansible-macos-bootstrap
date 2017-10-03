@@ -13,3 +13,4 @@ osx_image: xcode9
     #- ansible-galaxy install -f -r tests/requirements.yml -p /tmp/roles
 script:
   - "./bootstrap.sh $(pwd)/.macos-bootstrap"
+  - "./bootstrap.sh $(pwd)/.macos-bootstrap | grep -q 'changed=0.*failed=0' && (echo 'Idempotence test: pass' && exit 0) || (echo 'Idempotence test: fail' && exit 1)"
