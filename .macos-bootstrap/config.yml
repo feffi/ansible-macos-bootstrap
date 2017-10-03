@@ -1,4 +1,4 @@
----
+ ---
 ###########################################################################################
 #                                                                                         #
 #                         ____   _____   _                 _       _                      #
@@ -18,6 +18,8 @@
 
 # Ansible role to manage UI settings in macOS.
 macos_ui: {
+  # Dashboard state, 1 = disabled, 2 = show as space, 3 = run as overlay
+  dashboard_state: 1,
   # Reveal IP address, hostname, OS version, etc. when clicking the clock in the login window
   hostinfo: "HostName",
   # Enable Dashboard dev mode (allows keeping widgets on the desktop)
@@ -76,7 +78,7 @@ macos_finder: {
   search_current_default: "SCcf",
   # Set warning when changing a file extension
   warning_change_ext: false,
-  # Set Finder view mode: 'icnv', 'clmv', 'Flwv'
+  # Set Finder view mode, Icon View = `icnv`, List View = `Nlsv`, Column View = `clmv`, Cover Flow = `Flwv`
   view_mode: "clmv",
   # Set Default Finder Location
   default_location: "PfLo",
@@ -117,7 +119,21 @@ macos_finder: {
   # Show the ~/Library folder
   hide_library_folder: false,
   # Sets default save target to be a local disk, not iCloud
-  default_target_icloud: false
+  default_target_icloud: false,
+  # Enable snap-to-grid for icons on the desktop
+  icon_snap_mode: "grid",
+  # Size of icons in pixel
+  icon_size: 80,
+  # Grid spacing for icons in pixel
+  grid_spacing: 100,
+  # Show item info near icons
+  icon_show_info: true,
+  # Icon label position: true = bottom, false = right
+  icon_label_bottom: true,
+  # Show sidebar in Finder
+  sidebar_show: true,
+  # Set Finder sidebar width in pixel
+  sidebar_width: 134
 }
 
 # Ansible role to manage the macOS dock.
@@ -209,7 +225,9 @@ macos_dock: {
     # Top left screen corner modifier
     top_left_modifier: 0,
     # Don’t show Dashboard as a Space
-    dashboard_in_overlay: true
+    dashboard_in_overlay: true,
+    # Set Dock magnification
+    magnification: true
   }
 }
 
@@ -537,6 +555,10 @@ macos_defaults: {
     { domain: "com.apple.AddressBook", key: "ABNameDisplay", type: "integer", value: "1", description: "Display format 'Last, First'" },
     { domain: "com.apple.AddressBook", key: "ABNameSortingFormat", type: "string", value: "sortingLastName sortingFirstName", description: "Sort by last name" },
     { domain: "com.apple.addressbook", key: "ABShowDebugMenu", type: "boolean", value: "true", description: "Show debug menu in Addressbook" },
+    { domain: "com.apple.addressbook", key: "ABUse21vCardFormat", type: "boolean", value: "false", description: "Addressbook vCard Format, false = 3.0, true = 2.1" },
+    { domain: "com.apple.addressbook", key: "ABShortNamePrefersNickname", type: "boolean", value: "false", description: "Addressbook prefer nicknames" },
+    { domain: "com.apple.addressbook", key: "ABShortNameStyle", type: "integer", value: "0", description: "Addressbook short name format, 0 = Full Name, 1 = First Name & Last Initial, 2 = First Initial & Last Name, 3 = First Name Only, 4 = Last Name Only" },
+    { domain: "com.apple.addressbook", key: "ABBirthDayVisible", type: "boolean", value: "true", description: "Show birthdays in Addressbook" },
     { domain: "com.apple.archiveutility", key: "dearchive-move-after", type: "string", value: "~/.Trash", description: "Move archives to trash after extraction" },
     { domain: "com.apple.archiveutility", key: "dearchive-reveal-after", type: "boolean", value: "false", description: "Don't reveal extracted items" },
     { domain: "com.apple.BluetoothAudioAgent", key: "Apple Bitpool Min (editable)", type: "integer", value: "40", description: "Increase sound quality for Bluetooth headphones/headset" },
@@ -548,25 +570,12 @@ macos_defaults: {
     { domain: "com.apple.digihub", key: "com.apple.digihub.dvd.video.appeared", type: "dict", value: { action: 1 }, description: "Disable video DVD automatic action" },
     { domain: "com.apple.DiskUtility", key: "advanced-image-options", type: "boolean", value: "true", description: "Enable advanced image availability in Disk Utility" },
     { domain: "com.apple.DiskUtility", key: "DUDebugMenuEnabled", type: "boolean", value: "true", description: "Enable the debug menu in Disk Utility" },
+    { domain: "com.apple.DiskUtility", key: "DUShowDetailsInFirstAid", type: "boolean", value: "true", description: "Enable details view in Disk Utility" },
     { domain: "com.apple.driver.AppleBluetoothMultitouch.trackpad", key: "Clicking", type: "boolean", value: "false", description: "Disable tap to click" },
     { domain: "com.apple.driver.AppleBluetoothMultitouch.trackpad", key: "TrackpadCornerSecondaryClick", type: "integer", value: "2", description: "Trackpad: map bottom right corner to right-click" },
     { domain: "com.apple.driver.AppleBluetoothMultitouch.trackpad", key: "TrackpadRightClick", type: "boolean", value: "true", description: "Trackpad: map bottom right corner to right-click" },
     { domain: "com.apple.dt.Xcode", key: "AlwaysShowTabBar", type: "boolean", value: "true", description: "Show tab bar" },
     { domain: "com.apple.dt.Xcode", key: "DVTTextIndentUsingTabs", type: "boolean", value: "false", description: "Always use spaces for indenting" },
-    { domain: "com.apple.finder", key: "DesktopViewSettings:IconViewSettings:arrangeBy", type: "string", value: "grid", description: "Enable snap-to-grid for icons on the desktop" },
-    { domain: "com.apple.finder", key: "DesktopViewSettings:IconViewSettings:gridSpacing", type: "float", value: 100, description: "Increase grid spacing for icons on the desktop" },
-    { domain: "com.apple.finder", key: "DesktopViewSettings:IconViewSettings:iconSize", type: "float", value: 80, description: "Increase the size of icons on the desktop" },
-    { domain: "com.apple.finder", key: "DesktopViewSettings:IconViewSettings:labelOnBottom", type: "boolean", value: true, description: "Icon label position: true = bottom, false = right" },
-    { domain: "com.apple.finder", key: "DesktopViewSettings:IconViewSettings:showItemInfo", type: "boolean", value: true, description: "Show item info near icons on the desktop" },
-    { domain: "com.apple.finder", key: "FK_StandardViewSettings:IconViewSettings:arrangeBy", type: "string", value: "grid", description: "Enable snap-to-grid for icons in finder icon views" },
-    { domain: "com.apple.finder", key: "FK_StandardViewSettings:IconViewSettings:gridSpacing", type: "float", value: 100, description: "Increase grid spacing for icons in finder icon views" },
-    { domain: "com.apple.finder", key: "FK_StandardViewSettings:IconViewSettings:iconSize", type: "float", value: 80, description: "Increase the size of icons in finder icon views" },
-    { domain: "com.apple.finder", key: "FK_StandardViewSettings:IconViewSettings:showItemInfo", type: "boolean", value: true, description: "Show item info near icons in finder icon view" },
-    { domain: "com.apple.finder", key: "FXInfoPanesExpanded", type: "dict", value: { Privileges: true, MetaData: true, Comments: true, OpenWith: true, Preview: false, Name: true, General: true }, description: "Expand the following File Info panes: 'General', 'Open with', and 'Sharing & Permissions'" },
-    { domain: "com.apple.finder", key: "StandardViewSettings:IconViewSettings:arrangeBy", type: "string", value: "grid", description: "Enable snap-to-grid for icons in other icon views" },
-    { domain: "com.apple.finder", key: "StandardViewSettings:IconViewSettings:gridSpacing", type: "float", value: 100, description: "Increase grid spacing for icons in other icon views" },
-    { domain: "com.apple.finder", key: "StandardViewSettings:IconViewSettings:iconSize", type: "float", value: 80, description: "Increase the size of icons in other icon views" },
-    { domain: "com.apple.finder", key: "StandardViewSettings:IconViewSettings:showItemInfo", type: "boolean", value: true, description: "Show item info near icons other icon views" },
     { domain: "com.apple.frameworks.diskimages", key: "skip-verify", type: "boolean", value: "true", description: "Don't verify disk images" },
     { domain: "com.apple.frameworks.diskimages", key: "skip-verify-locked", type: "boolean", value: "true", description: "Don't verify locked disk images" },
     { domain: "com.apple.frameworks.diskimages", key: "skip-verify-remote", type: "boolean", value: "true", description: "Don't verify remote disk images" },
@@ -577,6 +586,11 @@ macos_defaults: {
     { domain: "com.apple.iCal", key: "Show Week Numbers", type: "boolean", value: "true", description: "Show Week Numbers" },
     { domain: "com.apple.LaunchServices", key: "LSQuarantine", type: "boolean", value: "false", description: "Don't show a warning when opening files downloaded from the Internet" },
     { domain: "com.apple.mail", key: "AddressesIncludeNameOnPasteboard", type: "boolean", value: "false", description: "Copy email addresses as 'foo@example.com' instead of 'Foo Bar <foo@example.com>' in Mail.app" },
+    { domain: "com.apple.mail", key: "EnableContactPhotos", type: "boolean", value: "true", description: "Enable contact photos" },
+    { domain: "com.apple.mail", key: "ShouldShowUnreadMessagesInBold", type: "boolean", value: "true", description: "Show unread messages in bold" },
+    { domain: "com.apple.mail", key: "ShowBccHeader", type: "boolean", value: "true", description: "Show BCC header" },
+    { domain: "com.apple.mail", key: "ShowComposeFormatInspectorBar", type: "boolean", value: "true", description: "Show compose format inspector bar" },
+    { domain: "com.apple.mail", key: "ShowReplyToHeader", type: "boolean", value: "true", description: "Show reply-to header" },
     { domain: "com.apple.mail", key: "DisableInlineAttachmentViewing", type: "boolean", value: "true", description: "Disable inline attachments (just show the icons)" },
     { domain: "com.apple.mail", key: "DisableReplyAnimations", type: "boolean", value: "true", description: "Disable reply animations in Mail.app" },
     { domain: "com.apple.mail", key: "DisableSendAnimations", type: "boolean", value: "true", description: "Disable send animations in Mail.app" },
@@ -634,6 +648,7 @@ macos_defaults: {
     { domain: "com.apple.terminal", key: "Default Window Settings", type: "string", value: "Pro", description: "Set the 'Basic Improved' as the default" },
     { domain: "com.apple.terminal", key: "Startup Window Settings", type: "string", value: "Pro", description: "Set the 'Basic Improved' as the default" },
     { domain: "com.apple.terminal", key: "StringEncodings", type: "array", value: [ "4" ], description: "Only use UTF-8 in Terminal.app" },
+    { domain: "com.apple.terminal", key: "SecureKeyboardEntry", type: "boolean", value: true, description: "Use secure keyboard" },
     { domain: "com.apple.TextEdit", key: "PlainTextEncoding", type: "integer", value: "4", description: "Open and save files as UTF-8 in TextEdit" },
     { domain: "com.apple.TextEdit", key: "PlainTextEncodingForWrite", type: "integer", value: "4", description: "Open and save files as UTF-8 in TextEdit" },
     { domain: "com.apple.TextEdit", key: "RichText", type: "integer", value: "0", description: "Use plain text mode for new TextEdit documents" },
@@ -660,6 +675,8 @@ macos_defaults: {
     { domain: "NSGlobalDomain", key: "PMPrintingExpandedStateForPrint", type: "boolean", value: "true", description: "Expand Print Panel by Default (System)" },
     { domain: "NSGlobalDomain", key: "PMPrintingExpandedStateForPrint2", type: "boolean", value: "true", description: "Expand Print Panel by Default (App)" },
     { domain: "NSGlobalDomain", key: "WebKitDeveloperExtras", type: "boolean", value: "true", description: "Add a context menu item for showing the web inspector to web views" },
+    { domain: "NSGlobalDomain", key: "NSPersonNameDefaultDisplayNameOrder", type: "integer", value: "2", description: "Show first name 1 = before last name, 2 = following last name" },
+    { domain: "NSGlobalDomain", key: "NSPersonNameDefaultShouldPreferNicknamesPreference", type: "boolean", value: "false", description: "Prefer nicknames on contacts list" },
     { domain: "om.google.Chrome", key: "ExtensionInstallSources", type: "array", value: [ "https://gist.githubusercontent.com/", "http://userscripts.org/*" ], description: "Allow installing user scripts via GitHub Gist or Userscripts.org in google-chrome" },
     { domain: "om.google.Chrome.canary", key: "ExtensionInstallSources", type: "array", value: [ "https://gist.githubusercontent.com/", "http://userscripts.org/*" ], description: "Allow installing user scripts via GitHub Gist or Userscripts.org in google-chrome-carnary" },
     { domain: "com.googlecode.iterm2", key: "PromptOnQuit", type: "boolean", value: "false", description: "Don’t display the annoying prompt when quitting iTerm" },
