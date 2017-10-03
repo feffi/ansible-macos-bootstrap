@@ -1,4 +1,4 @@
- ---
+---
 ###########################################################################################
 #                                                                                         #
 #                         ____   _____   _                 _       _                      #
@@ -66,6 +66,8 @@ macos_ui: {
 
 # Ansible role to manage finder settings in macOS.
 macos_finder: {
+  # Show folders before files
+  sort_folder_first: true,
   # Show Hidden Files
   all_files: true,
   # Show Full Path in Finder Title
@@ -133,7 +135,9 @@ macos_finder: {
   # Show sidebar in Finder
   sidebar_show: true,
   # Set Finder sidebar width in pixel
-  sidebar_width: 134
+  sidebar_width: 134,
+  # Group files by Kind, Name, Application, Date Last Opened, Date Added, Date Modified, Date Created, Size, Tags, None
+  group_by: "Kind"
 }
 
 # Ansible role to manage the macOS dock.
@@ -817,7 +821,9 @@ macos_timezone: {
   # Set locale to metric units scale
   use_metric_units: true,
   # Set the current measurement units
-  measurement_units: "Centimeters"
+  measurement_units: "Centimeters",
+  # Set the current Temperatur unit
+  temperature_units: "Celsius"
 }
 
 # Ansible role to manage macOS npm installs.
