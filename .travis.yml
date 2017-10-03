@@ -2,15 +2,13 @@
 language: objective-c
 os: osx
 sudo: required
-osx_image:
-  - xcode9
-  - xcode9
-  - xcode8.3
-  - xcode8.2
-  - xcode8.1
-  - xcode8
-  - xcode7.3
-  - xcode6.4
+osx_image: xcode9
+#  - xcode8.3
+#  - xcode8.2
+#  - xcode8.1
+#  - xcode8
+#  - xcode7.3
+#  - xcode6.4
 #install:
     #- sudo -H easy_install pip
     #- sudo -H pip install -I ansible==2.4.0.0
