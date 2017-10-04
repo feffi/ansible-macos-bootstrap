@@ -259,7 +259,7 @@ $(which ansible-galaxy) install -r requirements.yml -p roles
 #$(which ansible-galaxy) install -r requirements.yml -p roles --ignore-errors
 output_running "Bootstrapping..."
 output_running "Using config from: '$1'"
-$(which ansible-playbook) -i "inventory" bootstrap.yml --connection=local --extra-vars cli_path=$1
+$(which ansible-playbook) -i "inventory" bootstrap.yml -K --connection=local --extra-vars cli_path=$1
 
 ###################################################################################
 # Kill all affected applications                                                  #

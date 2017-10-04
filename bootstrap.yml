@@ -2,7 +2,7 @@
 #./bootstrap.sh /Users/feffi/Desktop/.macos-bootstrap
 - hosts: 127.0.0.1
   connection: local
-  #become: true
+  become: false
   gather_facts: true
   vars:
     #DEBUG: true
@@ -10,7 +10,14 @@
     - { role: feffi.macos-include-vars,
         # Include custom vars from defined locations
         macos_include_vars: {
-          paths: "{{ cli_path | default( inventory_dir + '/.macos-bootstrap' ) }}"
+          paths: "{{ cli_path | default( inventory_dir + '/.macos-bootstrap' ) }}",
+          # Extension of files to include.
+          extensions: [ "yml", "json" ],
+          # Exclude files matching this names
+          excludes: [ "requirements.yml", ".DS_Store" ],
+          # Directory depth to used search for files
+          # 1 = only files directly in include_vars_dir_paths
+          depth: 1
         }
       }
     - { role: feffi.debug }
