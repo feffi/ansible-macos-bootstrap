@@ -20,25 +20,25 @@
           depth: 1
         }
       }
-    - { role: feffi.debug }
-    - { role: feffi.ssh-config }
-    - { role: feffi.git-config }
-    - { role: feffi.macos-dotfiles }
-    - { role: feffi.macos-homebrew }
-    - { role: feffi.macos-pip }
-    - { role: feffi.macos-softwareupdate }
-    - { role: feffi.macos-timemachine }
-    - { role: feffi.macos-ohmyzsh }
-    - { role: feffi.macos-computername }
-    - { role: feffi.macos-timezone }
-    - { role: feffi.macos-standby }
-    - { role: feffi.macos-defaults }
-    - { role: feffi.macos-settings }
-    - { role: feffi.macos-ui }
-    - { role: feffi.macos-finder }
-    - { role: feffi.macos-dock }
-    - { role: feffi.macos-avatar }
-    - { role: feffi.macos-sublime }
-    - { role: feffi.macos-git-repos }
-    - { role: feffi.macos-npm }
+    - { role: feffi.debug, tags: [ 'debug' ] }
+    - { role: feffi.ssh-config, tags: [ 'ssh-config' ] }
+    - { role: feffi.git-config, tags: [ 'git-config' ] }
+    - { role: feffi.macos-dotfiles, tags: [ 'dotfiles' ] }
+    - { role: feffi.macos-homebrew, tags: [ 'homebrew' ] }
+    - { role: feffi.macos-pip, tags: [ 'pip' ] }
+    - { role: feffi.macos-softwareupdate, tags: [ 'softwareupdate' ] }
+    - { role: feffi.macos-timemachine, tags: [ 'timemachine' ] }
+    - { role: feffi.macos-ohmyzsh, tags: [ 'ohmyzsh' ] }
+    - { role: feffi.macos-computername, tags: [ 'computername' ] }
+    - { role: feffi.macos-timezone, tags: [ 'timezone' ] }
+    - { role: feffi.macos-standby, tags: [ 'standby' ] }
+    - { role: feffi.macos-defaults, tags: [ 'defaults' ] }
+    - { role: feffi.macos-settings, tags: [ 'settings' ] }
+    - { role: feffi.macos-ui, tags: [ 'ui' ] }
+    - { role: feffi.macos-finder, tags: [ 'finder' ] }
+    - { role: feffi.macos-dock, tags: [ 'dock' ] }
+    - { role: feffi.macos-avatar, tags: [ 'avatar' ] }
+    - { role: feffi.macos-sublime, tags: [ 'sublime' ] }
+    - { role: feffi.macos-git-repos, tags: [ 'git-repos' ] }
+    - { role: feffi.macos-npm, tags: [ 'npm' ] }
     #- { role: feffi.macos-ssd }
